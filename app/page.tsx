@@ -1,65 +1,122 @@
-import Image from "next/image";
+"use client";
+
+import ContactForm from "@/components/ContactForm";
+import ProjectCard, { Project } from "@/components/ProjectCard";
+import SocialLinks from "@/components/SocialLinks";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import ThemeToggle from "@/components/ThemeToggle";
+import TechArsenal from "@/components/TechArsenal";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
+
+const projects: Project[] = [
+  {
+    name: "Bakı Biznes Universiteti",
+    url: "https://bbu-next.vercel.app",
+    tags: ["Next.js", "C#", "SQL"],
+    image: "/images/projects/bbu.png"
+  },
+  {
+    name: "BakuDivers",
+    url: "https://bakudivers.az",
+    tags: ["React", "API", "UI"],
+    image: "/images/projects/bakudivers.png"
+  },
+  {
+    name: "Aznews",
+    url: "https://aznews.rf.gd",
+    tags: ["Web", "News", "Dev"],
+    image: "/images/projects/aznews.png"
+  },
+];
 
 export default function Home() {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="max-w-6xl mx-auto px-6 sm:px-12 selection:bg-foreground selection:text-background pb-24">
+      {/* Header / Nav */}
+      <nav className="flex justify-between items-center py-12 animate-fade-in">
+        <div className="text-xl font-medium tracking-tighter">zhmdff</div>
+        <div className="flex items-center gap-8 sm:gap-12">
+          <div className="hidden sm:flex items-center gap-8">
+            <SocialLinks />
+            <LanguageSwitcher />
+          </div>
+          <ThemeToggle />
+        </div>
+      </nav>
+      
+      {/* Mobile Nav Helper */}
+      <div className="flex sm:hidden justify-between items-center pb-8 animate-fade-in">
+         <SocialLinks />
+         <LanguageSwitcher />
+      </div>
+
+      {/* Hero */}
+      <header className="py-24 sm:py-32 space-y-12 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+        <div className="space-y-4">
+          <p className="text-xs uppercase tracking-[0.4em] opacity-40">{t.role} / {t.location}</p>
+          <h1 className="text-5xl sm:text-7xl font-light tracking-tight leading-[1.1] max-w-4xl">
+            {t.name} <br />
+            <span className="opacity-40 italic">{t.tagline}</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="space-y-6">
+            <p className="text-xl text-foreground/60 max-w-2xl font-light leading-relaxed">
+            {t.description}
+            </p>
+            <div className="flex items-center gap-4 pt-4">
+                <a href="#projects" className="btn-geometric">
+                    {t.projects_title}
+                </a>
+                <a href="#contact" className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
+                    {t.contact_title}
+                </a>
+            </div>
         </div>
-      </main>
+      </header>
+
+      {/* Tech Arsenal Section */}
+      <div className="glass-panel mb-24 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+        <TechArsenal />
+      </div>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-24 space-y-16 animate-fade-in" style={{ animationDelay: "0.3s" }}>
+        <div className="flex items-center space-x-8">
+          <h2 className="text-xs uppercase tracking-[0.5em] font-medium whitespace-nowrap">{t.projects_title}</h2>
+          <div className="geometric-line"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+          {projects.map((project, idx) => (
+            <div key={project.name} className="animate-fade-in" style={{ animationDelay: `${0.4 + idx * 0.1}s` }}>
+              <ProjectCard project={project} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <div id="contact" className="glass-panel mb-24 animate-fade-in" style={{ animationDelay: "0.6s" }}>
+        <ContactForm />
+      </div>
+
+      {/* Footer */}
+      <footer className="py-24 border-t border-foreground/5 animate-fade-in" style={{ animationDelay: "0.7s" }}>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+          <div className="space-y-2">
+            <p className="text-sm opacity-40">&copy; {new Date().getFullYear()} {t.name}. {t.footer_copy}.</p>
+            <p className="text-[10px] uppercase tracking-widest opacity-20">Azerbaijan / Baku</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+            <span className="text-[10px] uppercase tracking-widest opacity-40">{t.footer_status}</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
