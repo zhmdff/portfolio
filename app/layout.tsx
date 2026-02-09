@@ -16,24 +16,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://zhmdff.com'),
+  metadataBase: new URL("https://zhmdff.com"),
   title: {
     default: "Mahmud Ahmadov | Backend Architect & Full-stack Developer",
-    template: "%s | Mahmud Ahmadov"
+    template: "%s | Mahmud Ahmadov",
   },
   description: "Mahmud Ahmadov (zhmdff) is a Backend Architect and Full-stack Developer based in Baku, Azerbaijan. Specialist in high-performance systems and minimalist web design.",
-  keywords: [
-    "Mahmud Ahmadov", 
-    "Mahmud Əhmədov", 
-    "Mahmud Ehmedov", 
-    "Mahmud", 
-    "zhmdff", 
-    "backend architect", 
-    "full-stack developer", 
-    "Baku", 
-    "Azerbaijan", 
-    "software engineer"
-  ],
+  keywords: ["Mahmud Ahmadov", "Mahmud Əhmədov", "Mahmud Ehmedov", "Mahmud", "zhmdff", "backend architect", "full-stack developer", "Baku", "Azerbaijan", "software engineer"],
   authors: [{ name: "Mahmud Ahmadov" }],
   creator: "Mahmud Ahmadov",
   openGraph: {
@@ -81,37 +70,26 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Mahmud Ahmadov",
-    "alternateName": ["Mahmud Əhmədov", "Mahmud Ehmedov", "zhmdff"],
-    "url": "https://zhmdff.com",
-    "jobTitle": "Backend Architect & Full-stack Developer",
-    "address": {
+    name: "Mahmud Ahmadov",
+    alternateName: ["Mahmud Əhmədov", "Mahmud Ehmedov", "zhmdff"],
+    url: "https://zhmdff.com",
+    jobTitle: "Backend Architect & Full-stack Developer",
+    address: {
       "@type": "PostalAddress",
-      "addressLocality": "Baku",
-      "addressCountry": "Azerbaijan"
+      addressLocality: "Baku",
+      addressCountry: "Azerbaijan",
     },
-    "sameAs": [
-      "https://github.com/zhmdff",
-      "https://linkedin.com/in/zhmdff"
-    ]
+    sameAs: ["https://github.com/zhmdff", "https://linkedin.com/in/mahmud-ahmadov-a57bab261"],
   };
 
   return (
     <html lang="az" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <Script
-          id="json-ld"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <Script id="json-ld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider>
-          <LanguageProvider>
-            {children}
-          </LanguageProvider>
+          <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
       </body>
     </html>
