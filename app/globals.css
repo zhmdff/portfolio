@@ -16,7 +16,8 @@
   --background: #fafafa;
   --foreground: #0a0a0a;
   --accent: #000000;
-  --grid-color: rgba(0, 0, 0, 0.03);
+  --grid-color: rgba(0, 0, 0, 0.05);
+  /* Slightly increased for visibility */
   --section-bg: rgba(255, 255, 255, 0.7);
 }
 
@@ -24,7 +25,7 @@
   --background: #000000;
   --foreground: #ffffff;
   --accent: #ffffff;
-  --grid-color: rgba(255, 255, 255, 0.03);
+  --grid-color: rgba(255, 255, 255, 0.05);
   --section-bg: rgba(255, 255, 255, 0.03);
 }
 
@@ -34,10 +35,6 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image:
-    linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-  background-size: 50px 50px;
   transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
