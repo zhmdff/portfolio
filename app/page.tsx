@@ -14,19 +14,19 @@ const projects: Project[] = [
     name: "Bakı Biznes Universiteti",
     url: "https://bbu-next.vercel.app",
     tags: ["Next.js", "C#", "SQL"],
-    image: "/images/projects/bbu.png"
+    image: "/images/projects/bbu.png",
   },
   {
     name: "BakuDivers",
     url: "https://bakudivers.az",
     tags: ["React", "API", "UI"],
-    image: "/images/projects/bakudivers.png"
+    image: "/images/projects/bakudivers.png",
   },
   {
     name: "Aznews",
     url: "https://aznews.rf.gd",
-    tags: ["Web", "News", "Dev"],
-    image: "/images/projects/aznews.png"
+    tags: ["Web", "PHP", "LARAVEL"],
+    image: "/images/projects/aznews.png",
   },
 ];
 
@@ -47,34 +47,34 @@ export default function Home() {
           <ThemeToggle />
         </div>
       </nav>
-      
+
       {/* Mobile Nav Helper */}
       <div className="flex sm:hidden justify-between items-center pb-8 animate-fade-in">
-         <SocialLinks />
-         <LanguageSwitcher />
+        <SocialLinks />
+        <LanguageSwitcher />
       </div>
 
       {/* Hero */}
       <header className="py-24 sm:py-32 space-y-12 animate-fade-in" style={{ animationDelay: "0.1s" }}>
         <div className="space-y-4">
-          <p className="text-xs uppercase tracking-[0.4em] opacity-40">{t.role} / {t.location}</p>
+          <p className="text-xs uppercase tracking-[0.4em] opacity-40">
+            {t.role} / {t.location}
+          </p>
           <h1 className="text-5xl sm:text-7xl font-light tracking-tight leading-[1.1] max-w-4xl">
             {t.name} <br />
             <span className="opacity-40 italic">{t.tagline}</span>
           </h1>
         </div>
         <div className="space-y-6">
-            <p className="text-xl text-foreground/60 max-w-2xl font-light leading-relaxed">
-            {t.description}
-            </p>
-            <div className="flex items-center gap-4 pt-4">
-                <a href="#projects" className="btn-geometric">
-                    {t.projects_title}
-                </a>
-                <a href="#contact" className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
-                    {t.contact_title}
-                </a>
-            </div>
+          <p className="text-xl text-foreground/60 max-w-2xl font-light leading-relaxed">{t.description}</p>
+          <div className="flex items-center gap-4 pt-4">
+            <a href="#projects" className="btn-geometric">
+              {t.projects_title}
+            </a>
+            <a href="#contact" className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
+              {t.contact_title}
+            </a>
+          </div>
         </div>
       </header>
 
@@ -108,7 +108,9 @@ export default function Home() {
       <footer className="py-24 border-t border-foreground/5 animate-fade-in" style={{ animationDelay: "0.7s" }}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           <div className="space-y-2">
-            <p className="text-sm opacity-40">&copy; {new Date().getFullYear()} {t.name}. {t.footer_copy}.</p>
+            <p className="text-sm opacity-40">
+              &copy; {new Date().getFullYear()} {t.name}. {t.footer_copy}.
+            </p>
             <p className="text-[10px] uppercase tracking-widest opacity-20">Azerbaijan / Baku</p>
           </div>
           <div className="flex items-center gap-3">
