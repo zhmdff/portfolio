@@ -35,24 +35,32 @@ export default function Home() {
   const t = translations[language];
 
   return (
-    <div className="max-w-6xl mx-auto px-6 sm:px-12 selection:bg-foreground selection:text-background pb-24">
-      {/* Header / Nav */}
-      <nav className="flex justify-between items-center py-12 animate-fade-in">
-        <div className="text-xl font-medium tracking-tighter">zhmdff</div>
-        <div className="flex items-center gap-8 sm:gap-12">
-          <div className="hidden sm:flex items-center gap-8">
-            <SocialLinks />
-            <LanguageSwitcher />
+    <div className="selection:bg-foreground selection:text-background min-h-screen">
+      {/* Sticky Header */}
+      <nav className="sticky top-0 z-50 w-full bg-background/60 backdrop-blur-xl border-b border-foreground/5 animate-fade-in">
+        <div className="max-w-6xl mx-auto px-6 sm:px-12 flex justify-between items-center py-6">
+          <div 
+            className="text-xl font-medium tracking-tighter hover:opacity-70 transition-opacity cursor-pointer"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            zhmdff
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-8 sm:gap-12">
+            <div className="hidden sm:flex items-center gap-8">
+              <SocialLinks />
+              <LanguageSwitcher />
+            </div>
+            <ThemeToggle />
+          </div>
         </div>
       </nav>
 
-      {/* Mobile Nav Helper */}
-      <div className="flex sm:hidden justify-between items-center pb-8 animate-fade-in">
-        <SocialLinks />
-        <LanguageSwitcher />
-      </div>
+      <main className="max-w-6xl mx-auto px-6 sm:px-12 pb-24">
+        {/* Mobile Nav Helper */}
+        <div className="flex sm:hidden justify-between items-center py-8 animate-fade-in">
+          <SocialLinks />
+          <LanguageSwitcher />
+        </div>
 
       {/* Hero */}
       <header className="py-24 sm:py-32 space-y-12 animate-fade-in" style={{ animationDelay: "0.1s" }}>
@@ -119,6 +127,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      </main>
     </div>
   );
 }
