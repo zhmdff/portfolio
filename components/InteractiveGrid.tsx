@@ -49,7 +49,7 @@ export default function InteractiveGrid() {
             linear-gradient(90deg, var(--foreground) 1px, transparent 1px)
           `,
           backgroundSize: '50px 50px',
-          opacity: 0.3, /* Increased opacity for the high-lighted part */
+          opacity: 0.1,
           maskImage: `radial-gradient(200px circle at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%)`,
           WebkitMaskImage: `radial-gradient(200px circle at var(--mouse-x) var(--mouse-y), black 0%, transparent 100%)`,
         }}

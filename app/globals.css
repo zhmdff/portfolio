@@ -16,7 +16,8 @@
   --background: #fafafa;
   --foreground: #0a0a0a;
   --accent: #000000;
-  --grid-color: rgba(0, 0, 0, 0.05);
+  --grid-color: rgba(0, 0, 0, 0.03);
+  /* Subtle base */
   /* Slightly increased for visibility */
   --section-bg: rgba(255, 255, 255, 0.7);
 }
@@ -25,7 +26,8 @@
   --background: #000000;
   --foreground: #ffffff;
   --accent: #ffffff;
-  --grid-color: rgba(255, 255, 255, 0.05);
+  --grid-color: rgba(255, 255, 255, 0.03);
+  /* Subtle base */
   --section-bg: rgba(255, 255, 255, 0.03);
 }
 

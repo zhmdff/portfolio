@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export interface Project {
   name: string;
@@ -9,20 +10,22 @@ export interface Project {
 
 export default function ProjectCard({ project }: { project: Project }) {
   return (
-    <a 
+    <Link 
       href={project.url} 
       target="_blank" 
       rel="noopener noreferrer"
       className="group block space-y-6"
     >
-      <div className="relative aspect-[16/10] overflow-hidden border border-foreground/5 bg-zinc-100 dark:bg-zinc-900">
-        <Image
-          src={project.image}
-          alt={project.name}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+      <div className="relative aspect-video overflow-hidden border border-border group-hover:border-foreground/20 transition-colors duration-500">
+        <div className="absolute inset-0 sm:inset-[2.5%] group-hover:inset-0 transition-all duration-700 ease-out overflow-hidden">
+          <Image
+            src={project.image}
+            alt={project.name}
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500 pointer-events-none" />
       </div>
 
       <div className="space-y-4">
@@ -44,13 +47,13 @@ export default function ProjectCard({ project }: { project: Project }) {
           {project.tags.map(tag => (
             <span 
               key={tag} 
-              className="text-[10px] uppercase tracking-widest text-foreground/40 px-2 py-1 border border-foreground/10"
+              className="text-[10px] uppercase tracking-widest text-foreground/40 px-2 py-1 border border-border"
             >
               {tag}
             </span>
           ))}
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
