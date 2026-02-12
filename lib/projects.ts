@@ -4,19 +4,19 @@ export const projects: Project[] = [
   {
     name: "Bakı Biznes Universiteti",
     url: "https://bbu-next.vercel.app",
-    tags: ["Next.js", "C#", "SQL"],
+    tags: ["Next.js", "C#", "POSTGRESQL"],
     image: "/images/projects/bbu.png",
   },
   {
     name: "BakuDivers",
     url: "https://bakudivers.az",
-    tags: ["React", "API", "UI"],
+    tags: ["React", "C#", "SQL"],
     image: "/images/projects/baku-divers.png",
   },
   {
     name: "Aznews",
     url: "https://aznews.rf.gd",
-    tags: ["Web", "PHP", "LARAVEL"],
+    tags: ["PHP", "LARAVEL", "MYSQL"],
     image: "/images/projects/aznews.png",
   },
   {

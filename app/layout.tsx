@@ -84,8 +84,28 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="az" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="az" className="scroll-smooth dark" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  if (theme === 'light') {
+                    document.documentElement.classList.remove('dark');
+                  } else {
+                    // Default to dark or keep saved dark theme
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch (e) {
+                  // If localStorage fails, default to dark
+                  document.documentElement.classList.add('dark');
+                }
+              })();
+            `,
+          }}
+        />
         <Script id="json-ld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
