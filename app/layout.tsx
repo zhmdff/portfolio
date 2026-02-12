@@ -19,10 +19,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://zhmdff.com"),
   title: {
-    default: "Mahmud Ahmadov | Backend Architect & Full-stack Developer",
+    default: "Mahmud Ahmadov | Software & Full-stack Developer",
     template: "%s | Mahmud Ahmadov",
   },
-  description: "Mahmud Ahmadov (zhmdff) is a Backend Architect and Full-stack Developer based in Baku, Azerbaijan. Specialist in high-performance systems and minimalist web design.",
+  description: "Mahmud Ahmadov (zhmdff) is a Software & Full-stack Developer based in Baku, Azerbaijan. Specialist in high-performance systems and minimalist web design.",
   keywords: ["Mahmud Ahmadov", "Mahmud Əhmədov", "Mahmud Ehmedov", "Mahmud", "zhmdff", "backend architect", "full-stack developer", "Baku", "Azerbaijan", "software engineer"],
   authors: [{ name: "Mahmud Ahmadov" }],
   creator: "Mahmud Ahmadov",
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "az_AZ",
     url: "https://zhmdff.com",
-    title: "Mahmud Ahmadov | Backend Architect & Full-stack Developer",
-    description: "Mahmud Ahmadov (zhmdff) - Backend Architect and Full-stack Developer in Baku.",
+    title: "Mahmud Ahmadov | Software & Full-stack Developer",
+    description: "Mahmud Ahmadov (zhmdff) - Software & Full-stack Developer in Baku.",
     siteName: "Mahmud Ahmadov Portfolio",
     images: [
       {
@@ -44,8 +44,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mahmud Ahmadov | Backend Architect & Full-stack Developer",
-    description: "Mahmud Ahmadov (zhmdff) - Portfolio of a Backend Architect based in Baku.",
+    title: "Mahmud Ahmadov | Software & Full-stack Developer",
+    description: "Mahmud Ahmadov (zhmdff) - Portfolio of a Software & Full-stack Developer based in Baku.",
     images: ["/icon.jpg"],
     creator: "@zhmdff",
   },
@@ -72,9 +72,9 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Mahmud Ahmadov",
-    alternateName: ["Mahmud Əhmədov", "Mahmud Ehmedov", "zhmdff"],
+    alternateName: ["Mahmud Əhmədov", "Mahmud Ehmedov", "Mahmud", "zhmdff"],
     url: "https://zhmdff.com",
-    jobTitle: "Backend Architect & Full-stack Developer",
+    jobTitle: "Software & Full-stack Developer",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Baku",
