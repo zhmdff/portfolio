@@ -10,9 +10,9 @@ const tech = [
   { name: "JavaScript", color: "F7DF1E", logoColor: "black" },
   { name: "Unity", color: "000000" },
   { name: "React", color: "61DAFB", logoColor: "black" },
-  { name: "MongoDB", color: "47A248" },
+  { name: "SQL", color: "47A248" },
   { name: "PostgreSQL", color: "4169E1" },
-  { name: "Docker", color: "2496ED" },
+  { name: "NextJS", color: "2496ED" },
   { name: "Git", color: "F05032" },
 ];
 
