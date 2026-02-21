@@ -22,6 +22,10 @@ export const translations = {
     msg_error: "Xəta baş verdi",
     footer_copy: "Bütün hüquqlar qorunur",
     footer_status: "Yeni layihələr üçün əlçatandır",
+    view_all_projects: "Bütün Layihələr",
+    back_to_home: "Ana Səhifəyə Qayıt",
+    technical_details: "Texniki Göstəricilər",
+    live_demo: "Canlı Baxış",
   },
   en: {
     name: "Mahmud Ahmadov",
@@ -46,6 +50,10 @@ export const translations = {
     msg_error: "An error occurred",
     footer_copy: "All rights reserved",
     footer_status: "Available for new projects",
+    view_all_projects: "View All Projects",
+    back_to_home: "Back to Home",
+    technical_details: "Technical Details",
+    live_demo: "Live Demo",
   },
 };
 

@@ -1,7 +1,7 @@
 "use client";
 
 import ContactForm from "@/components/ContactForm";
-import ProjectCard, { Project } from "@/components/ProjectCard";
+import Showcase from "@/components/Showcase";
 import SocialLinks from "@/components/SocialLinks";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -68,21 +68,8 @@ export default function Home() {
           <TechArsenal />
         </div>
 
-        {/* Projects Section */}
-        <section id="projects" className="py-24 space-y-16 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-          <div className="flex items-center space-x-8">
-            <h2 className="text-xs uppercase tracking-[0.5em] font-medium whitespace-nowrap">{t.projects_title}</h2>
-            <div className="geometric-line"></div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-            {projects.map((project, idx) => (
-              <div key={project.name} className="animate-fade-in" style={{ animationDelay: `${0.4 + idx * 0.1}s` }}>
-                <ProjectCard project={project} />
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* Projects Showcase */}
+        <Showcase idList={[1, 2, 3]} />
 
         {/* Contact Section */}
         <div id="contact" className="glass-panel mb-24 animate-fade-in" style={{ animationDelay: "0.6s" }}>

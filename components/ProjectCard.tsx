@@ -1,14 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
 
 export interface Project {
+  id: number; 
   name: string;
+  name_en: string;
+  subtitle?: string;
+  subtitle_en?: string;
+  description: string;
+  description_en: string;
+  technicalDetails?: string[];
+  technicalDetails_en?: string[];
   url: string;
   tags: string[];
   image: string;
 }
 
 export default function ProjectCard({ project }: { project: Project }) {
+  const { language } = useLanguage();
+  const projectName = language === "en" ? project.name_en : project.name;
+  const projectDescription = language === "en" ? project.description_en : project.description;
+
   return (
     <Link 
       href={project.url} 
@@ -20,7 +33,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         <div className="absolute inset-0 sm:inset-[2.5%] group-hover:inset-0 transition-all duration-700 ease-out overflow-hidden">
           <Image
             src={project.image}
-            alt={project.name}
+            alt={projectName}
             fill
             className="object-cover"
           />
@@ -31,7 +44,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       <div className="space-y-4">
         <div className="flex justify-between items-start">
           <h3 className="text-2xl font-light tracking-tight group-hover:translate-x-1 transition-transform duration-500">
-            {project.name}
+            {projectName}
           </h3>
           <svg 
             viewBox="0 0 24 24" 
@@ -53,6 +66,12 @@ export default function ProjectCard({ project }: { project: Project }) {
             </span>
           ))}
         </div>
+
+        {projectDescription && (
+          <p className="text-sm text-foreground/60 line-clamp-2 font-light leading-relaxed group-hover:text-foreground/80 transition-colors">
+            {projectDescription}
+          </p>
+        )}
       </div>
     </Link>
   );
