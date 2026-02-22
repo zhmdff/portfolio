@@ -121,4 +121,30 @@ export const projects: Project[] = [
     tags: ["NEXT", "QR", "WEB"],
     image: "/images/projects/smart-reserve.png",
   },
+{
+  id: 6,
+  name: "TripMind",
+  name_en: "TripMind",
+  subtitle: "AI Səyahət Planlama Platforması",
+  subtitle_en: "AI Travel Planning Platform",
+  description: "İstifadəçi büdcəsi və maraqlarına əsasən fərdiləşdirilmiş səyahət planı, ölkə tövsiyəsi və xərclər analizi təqdim edən AI əsaslı veb tətbiq.",
+  description_en: "AI-powered web application that provides personalized travel plans, country recommendations, and budget analysis based on user preferences.",
+  technicalDetails: [
+    "Next.js 16 və React 19 ilə App Router əsaslı müasir arxitektura.",
+    "Gemini və Groq API inteqrasiyası ilə AI tövsiyə və analiz sistemi.",
+    "Kontekst əsaslı profil sistemi (büdcə, dillər, maraqlar, qida seçimləri).",
+    "Unsplash API vasitəsilə dinamik məkan şəkilləri.",
+    "Tailwind CSS 4 və TypeScript ilə tip təhlükəsiz və responsiv UI."
+  ],
+  technicalDetails_en: [
+    "Modern App Router architecture with Next.js 16 and React 19.",
+    "AI recommendation and analysis system powered by Gemini and Groq APIs.",
+    "Context-based profile system (budget, languages, interests, food preferences).",
+    "Dynamic destination images via Unsplash API.",
+    "Type-safe and responsive UI with Tailwind CSS 4 and TypeScript."
+  ],
+  url: "https://tripmind-seven.vercel.app/",
+  tags: ["NEXT", "AI", "TS", "TAILWIND"],
+  image: "/images/projects/trip-mind.png"
+}
 ];
