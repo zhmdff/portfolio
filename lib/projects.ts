@@ -9,18 +9,8 @@ export const projects: Project[] = [
     subtitle_en: "University Portal",
     description: "Təhsil müəssisəsi üçün müasir, yüksək performanslı rəsmi veb-sayt.",
     description_en: "Modern, high-performance official website for an educational institution.",
-    technicalDetails: [
-      "Next.js 16 və React 19 ilə performans optimallaşdırılması.",
-      "next-intl vasitəsilə tam beynəlxalqlaşdırma (az/en) dəstəyi.",
-      "Framer Motion ilə zəngin UI/UX animasiyaları.",
-      "Oracle Cloud və Next.js Image vasitəsilə optimallaşdırılmış media delivery."
-    ],
-    technicalDetails_en: [
-      "Performance optimization with Next.js 16 and React 19.",
-      "Full internationalization (az/en) support via next-intl.",
-      "Rich UI/UX animations with Framer Motion.",
-      "Optimized media delivery via Oracle Cloud and Next.js Image."
-    ],
+    technicalDetails: ["Next.js 16 və React 19 ilə performans optimallaşdırılması.", "next-intl vasitəsilə tam beynəlxalqlaşdırma (az/en) dəstəyi.", "Framer Motion ilə zəngin UI/UX animasiyaları.", "Oracle Cloud və Next.js Image vasitəsilə optimallaşdırılmış media delivery."],
+    technicalDetails_en: ["Performance optimization with Next.js 16 and React 19.", "Full internationalization (az/en) support via next-intl.", "Rich UI/UX animations with Framer Motion.", "Optimized media delivery via Oracle Cloud and Next.js Image."],
     url: "https://bbu.edu.az",
     tags: ["NEXT", "TS", "i18n"],
     image: "/images/projects/bbu.png",
@@ -33,18 +23,8 @@ export const projects: Project[] = [
     subtitle_en: "Diving Center",
     description: "Dalış mərkəzi üçün müasir və sürətli veb tətbiqin hazırlanması.",
     description_en: "Development of a modern and fast web application for a diving center.",
-    technicalDetails: [
-      "İstifadəçi dostu interfeys və asan naviqasiya.",
-      "Xidmətlər və məhsullar üçün geniş kataloq sistemi.",
-      "Backend üçün C# və SQL verilənlər bazası inteqrasiyası.",
-      "Sürətli yüklənmə üçün React optimallaşdırmaları."
-    ],
-    technicalDetails_en: [
-      "User-friendly interface and easy navigation.",
-      "Comprehensive catalog system for services and products.",
-      "C# and SQL database integration for the backend.",
-      "React optimizations for fast loading speeds."
-    ],
+    technicalDetails: ["İstifadəçi dostu interfeys və asan naviqasiya.", "Xidmətlər və məhsullar üçün geniş kataloq sistemi.", "Backend üçün C# və SQL verilənlər bazası inteqrasiyası.", "Sürətli yüklənmə üçün React optimallaşdırmaları."],
+    technicalDetails_en: ["User-friendly interface and easy navigation.", "Comprehensive catalog system for services and products.", "C# and SQL database integration for the backend.", "React optimizations for fast loading speeds."],
     url: "https://bakudivers.az",
     tags: ["React", "C#", "SQL"],
     image: "/images/projects/baku-divers.png",
@@ -57,18 +37,8 @@ export const projects: Project[] = [
     subtitle_en: "News Portal",
     description: "PHP Laravel platforması üzərində qurulmuş xəbər portalı.",
     description_en: "News portal built on the PHP Laravel platform.",
-    technicalDetails: [
-      "Laravel çərçivəsi ilə güclü inzibatçı paneli.",
-      "Dinamik xəbər kateqoriyaları və teqlər sistemi.",
-      "Yüksək trafik üçün verilənlər bazası optimallaşdırması.",
-      "SEO dostu URL strukturu və meta-teqlər."
-    ],
-    technicalDetails_en: [
-      "Powerful admin panel built with Laravel framework.",
-      "Dynamic news categories and tagging system.",
-      "Database optimizations for high traffic handling.",
-      "SEO-friendly URL structure and meta tags."
-    ],
+    technicalDetails: ["Laravel çərçivəsi ilə güclü inzibatçı paneli.", "Dinamik xəbər kateqoriyaları və teqlər sistemi.", "Yüksək trafik üçün verilənlər bazası optimallaşdırması.", "SEO dostu URL strukturu və meta-teqlər."],
+    technicalDetails_en: ["Powerful admin panel built with Laravel framework.", "Dynamic news categories and tagging system.", "Database optimizations for high traffic handling.", "SEO-friendly URL structure and meta tags."],
     url: "https://aznews.rf.gd",
     tags: ["PHP", "LARAVEL", "MYSQL"],
     image: "/images/projects/aznews.png",
@@ -81,18 +51,8 @@ export const projects: Project[] = [
     subtitle_en: "Cloud Storage System",
     description: "Tələbələr və müəllimlər üçün daxili fayl idarəetmə sistemi.",
     description_en: "Internal file management system for students and teachers.",
-    technicalDetails: [
-      "Faylların təhlükəsiz yüklənməsi və idarə edilməsi.",
-      "Tələbə və müəllimlər üçün xüsusi giriş hüquqları.",
-      "Next.js App Router mühitində sürətli işləmə qabiliyyəti.",
-      "Daxili axtarış və filtrasiya imkanları."
-    ],
-    technicalDetails_en: [
-      "Secure file upload and management system.",
-      "Special access rights for students and teachers.",
-      "Fast performance within Next.js App Router environment.",
-      "Internal search and filtering capabilities."
-    ],
+    technicalDetails: ["Faylların təhlükəsiz yüklənməsi və idarə edilməsi.", "Tələbə və müəllimlər üçün xüsusi giriş hüquqları.", "Next.js App Router mühitində sürətli işləmə qabiliyyəti.", "Daxili axtarış və filtrasiya imkanları."],
+    technicalDetails_en: ["Secure file upload and management system.", "Special access rights for students and teachers.", "Fast performance within Next.js App Router environment.", "Internal search and filtering capabilities."],
     url: "https://bbu-referat.vercel.app/",
     tags: ["Web", "NEXT", "FS"],
     image: "/images/projects/bbu-fs.png",
@@ -105,46 +65,62 @@ export const projects: Project[] = [
     subtitle_en: "Smart Queue System",
     description: "Marketlər üçün ağıllı rezervasiya və növbə sistemi MVP-si.",
     description_en: "Smart reservation and queue system MVP for markets.",
-    technicalDetails: [
-      "QR kod əsaslı sürətli rezervasiya mexanizmi.",
-      "Real-vaxt növbə statusu izləmə interfeysi.",
-      "Dashboard vasitəsilə mərkəzi market idarəetməsi.",
-      "Yüngül və sürətli Next.js mühiti."
-    ],
-    technicalDetails_en: [
-      "QR code based fast reservation mechanism.",
-      "Real-time queue status tracking interface.",
-      "Centralized market management via dashboard.",
-      "Lightweight and fast Next.js environment."
-    ],
+    technicalDetails: ["QR kod əsaslı sürətli rezervasiya mexanizmi.", "Real-vaxt növbə statusu izləmə interfeysi.", "Dashboard vasitəsilə mərkəzi market idarəetməsi.", "Yüngül və sürətli Next.js mühiti."],
+    technicalDetails_en: ["QR code based fast reservation mechanism.", "Real-time queue status tracking interface.", "Centralized market management via dashboard.", "Lightweight and fast Next.js environment."],
     url: "https://smart-reserve-mvp.vercel.app/",
     tags: ["NEXT", "QR", "WEB"],
     image: "/images/projects/smart-reserve.png",
   },
-{
-  id: 6,
-  name: "TripMind",
-  name_en: "TripMind",
-  subtitle: "AI Səyahət Planlama Platforması",
-  subtitle_en: "AI Travel Planning Platform",
-  description: "İstifadəçi büdcəsi və maraqlarına əsasən fərdiləşdirilmiş səyahət planı, ölkə tövsiyəsi və xərclər analizi təqdim edən AI əsaslı veb tətbiq.",
-  description_en: "AI-powered web application that provides personalized travel plans, country recommendations, and budget analysis based on user preferences.",
-  technicalDetails: [
-    "Next.js 16 və React 19 ilə App Router əsaslı müasir arxitektura.",
-    "Gemini və Groq API inteqrasiyası ilə AI tövsiyə və analiz sistemi.",
-    "Kontekst əsaslı profil sistemi (büdcə, dillər, maraqlar, qida seçimləri).",
-    "Unsplash API vasitəsilə dinamik məkan şəkilləri.",
-    "Tailwind CSS 4 və TypeScript ilə tip təhlükəsiz və responsiv UI."
-  ],
-  technicalDetails_en: [
-    "Modern App Router architecture with Next.js 16 and React 19.",
-    "AI recommendation and analysis system powered by Gemini and Groq APIs.",
-    "Context-based profile system (budget, languages, interests, food preferences).",
-    "Dynamic destination images via Unsplash API.",
-    "Type-safe and responsive UI with Tailwind CSS 4 and TypeScript."
-  ],
-  url: "https://tripmind-seven.vercel.app/",
-  tags: ["NEXT", "AI", "TS", "TAILWIND"],
-  image: "/images/projects/trip-mind.png"
-}
+  {
+    id: 6,
+    name: "TripMind",
+    name_en: "TripMind",
+    subtitle: "AI Səyahət Planlama Platforması",
+    subtitle_en: "AI Travel Planning Platform",
+    description: "İstifadəçi büdcəsi və maraqlarına əsasən fərdiləşdirilmiş səyahət planı, ölkə tövsiyəsi və xərclər analizi təqdim edən AI əsaslı veb tətbiq.",
+    description_en: "AI-powered web application that provides personalized travel plans, country recommendations, and budget analysis based on user preferences.",
+    technicalDetails: [
+      "Next.js 16 və React 19 ilə App Router əsaslı müasir arxitektura.",
+      "Gemini və Groq API inteqrasiyası ilə AI tövsiyə və analiz sistemi.",
+      "Kontekst əsaslı profil sistemi (büdcə, dillər, maraqlar, qida seçimləri).",
+      "Unsplash API vasitəsilə dinamik məkan şəkilləri.",
+      "Tailwind CSS 4 və TypeScript ilə tip təhlükəsiz və responsiv UI.",
+    ],
+    technicalDetails_en: [
+      "Modern App Router architecture with Next.js 16 and React 19.",
+      "AI recommendation and analysis system powered by Gemini and Groq APIs.",
+      "Context-based profile system (budget, languages, interests, food preferences).",
+      "Dynamic destination images via Unsplash API.",
+      "Type-safe and responsive UI with Tailwind CSS 4 and TypeScript.",
+    ],
+    url: "https://tripmind-seven.vercel.app/",
+    tags: ["NEXT", "AI", "TS", "TAILWIND"],
+    image: "/images/projects/trip-mind.png",
+  },
+  {
+    id: 7,
+    name: "RoadmapAI",
+    name_en: "RoadmapAI",
+    subtitle: "AI Əsaslı Yol Xəritəsi Platforması",
+    subtitle_en: "AI-Powered Roadmap Platform",
+    description: "İstifadəçilərin məqsədlərinə və maraqlarına əsasən fərdiləşdirilmiş inkişaf yol xəritələri təqdim edən AI əsaslı veb tətbiq.",
+    description_en: "AI-powered web application that provides personalized development roadmaps based on user goals and interests.",
+    technicalDetails: [
+      "Next.js 16 və React 19 ilə App Router əsaslı interaktiv sorğu və nəticə səhifələri.",
+      "AI əsaslı karyera testi: istifadəçi cavablarına görə ixtisas tövsiyəsi, confidence score və izahlı analiz.",
+      "Addım-addım öyrənmə roadmap sistemi (təsvir, resurslar və praktik layihə tövsiyələri ilə).",
+      "PDF export funksiyası ilə fərdiləşdirilmiş yol xəritəsinin endirilməsi.",
+      "İkidilli interfeys (AZ/EN) və Light/Dark tema dəstəyi, Tailwind CSS 4 və TypeScript ilə responsiv UI.",
+    ],
+    technicalDetails_en: [
+      "Interactive questionnaire and results pages built with Next.js 16 and React 19 using the App Router.",
+      "AI-powered career assessment providing speciality recommendation, confidence score, and explanatory analysis.",
+      "Step-by-step learning roadmap system with descriptions, curated resources, and practical project suggestions.",
+      "PDF export functionality for downloading a personalized roadmap.",
+      "Bilingual interface (AZ/EN) and Light/Dark theme support with a responsive, type-safe UI built using Tailwind CSS 4 and TypeScript.",
+    ],
+    url: "https://roadmap-one-neon.vercel.app/",
+    tags: ["NEXT", "GEMINI", "AI"],
+    image: "/images/projects/roadmap.png",
+  },
 ];
