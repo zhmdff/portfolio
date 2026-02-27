@@ -11,9 +11,9 @@ export const projects: Project[] = [
     description_en: "Modern, high-performance official website for an educational institution.",
     technicalDetails: ["Next.js 16 və React 19 ilə performans optimallaşdırılması.", "next-intl vasitəsilə tam beynəlxalqlaşdırma (az/en) dəstəyi.", "Framer Motion ilə zəngin UI/UX animasiyaları.", "Oracle Cloud və Next.js Image vasitəsilə optimallaşdırılmış media delivery."],
     technicalDetails_en: ["Performance optimization with Next.js 16 and React 19.", "Full internationalization (az/en) support via next-intl.", "Rich UI/UX animations with Framer Motion.", "Optimized media delivery via Oracle Cloud and Next.js Image."],
-    url: "https://bbu.edu.az",
+    url: "https://bbu-next.vercel.app",
     tags: ["NEXT", "TS", "i18n"],
-    image: "/images/projects/bbu.png",
+    image: "/images/projects/bbu.webp",
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ export const projects: Project[] = [
     technicalDetails_en: ["User-friendly interface and easy navigation.", "Comprehensive catalog system for services and products.", "C# and SQL database integration for the backend.", "React optimizations for fast loading speeds."],
     url: "https://bakudivers.az",
     tags: ["React", "C#", "SQL"],
-    image: "/images/projects/baku-divers.png",
+    image: "/images/projects/baku-divers.webp",
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ export const projects: Project[] = [
     technicalDetails_en: ["Powerful admin panel built with Laravel framework.", "Dynamic news categories and tagging system.", "Database optimizations for high traffic handling.", "SEO-friendly URL structure and meta tags."],
     url: "https://aznews.rf.gd",
     tags: ["PHP", "LARAVEL", "MYSQL"],
-    image: "/images/projects/aznews.png",
+    image: "/images/projects/aznews.webp",
   },
   {
     id: 4,
@@ -55,7 +55,7 @@ export const projects: Project[] = [
     technicalDetails_en: ["Secure file upload and management system.", "Special access rights for students and teachers.", "Fast performance within Next.js App Router environment.", "Internal search and filtering capabilities."],
     url: "https://bbu-referat.vercel.app/",
     tags: ["Web", "NEXT", "FS"],
-    image: "/images/projects/bbu-fs.png",
+    image: "/images/projects/bbu-fs.webp",
   },
   {
     id: 5,
@@ -69,7 +69,7 @@ export const projects: Project[] = [
     technicalDetails_en: ["QR code based fast reservation mechanism.", "Real-time queue status tracking interface.", "Centralized market management via dashboard.", "Lightweight and fast Next.js environment."],
     url: "https://smart-reserve-mvp.vercel.app/",
     tags: ["NEXT", "QR", "WEB"],
-    image: "/images/projects/smart-reserve.png",
+    image: "/images/projects/smart-reserve.webp",
   },
   {
     id: 6,
@@ -95,7 +95,7 @@ export const projects: Project[] = [
     ],
     url: "https://tripmind-seven.vercel.app/",
     tags: ["NEXT", "AI", "TS", "TAILWIND"],
-    image: "/images/projects/trip-mind.png",
+    image: "/images/projects/trip-mind.webp",
   },
   {
     id: 7,
@@ -121,6 +121,6 @@ export const projects: Project[] = [
     ],
     url: "https://roadmap-one-neon.vercel.app/",
     tags: ["NEXT", "GEMINI", "AI"],
-    image: "/images/projects/roadmap.png",
+    image: "/images/projects/roadmap.webp",
   },
 ];
