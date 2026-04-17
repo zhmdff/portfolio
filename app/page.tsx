@@ -10,6 +10,9 @@ import TechArsenal from "@/components/TechArsenal";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import { projects } from "@/lib/projects";
+import AnimatedBackground from "@/components/AnimatedBackground";
+import CustomCursor from "@/components/CustomCursor";
+import { motion } from "framer-motion";
 
 const ControllerModel = dynamic(() => import("@/components/ControllerModel"), {
   ssr: false,
@@ -22,6 +25,9 @@ export default function Home() {
 
   return (
     <div className="selection:bg-foreground selection:text-background min-h-screen">
+      <CustomCursor />
+      <AnimatedBackground />
+
       {/* Sticky Header */}
       <nav className="sticky top-0 z-50 w-full bg-background/60 backdrop-blur-xl border-b border-foreground/5 animate-fade-in">
         <div className="max-w-6xl mx-auto px-6 sm:px-12 flex justify-between items-center py-6">
@@ -46,7 +52,12 @@ export default function Home() {
         </div>
 
         {/* Hero */}
-        <header className="py-24 sm:py-32 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+        <motion.header 
+          className="py-24 sm:py-32"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.1 }}
+        >
           <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-8">
             {/* Left – Text */}
             <div className="flex-1 space-y-12">
@@ -54,9 +65,9 @@ export default function Home() {
                 <p className="text-xs uppercase tracking-[0.4em] opacity-40">
                   {t.role} / {t.location}
                 </p>
-                <h1 className="text-5xl sm:text-7xl font-light tracking-tight leading-[1.1] max-w-4xl">
+                <h1 className="text-5xl sm:text-7xl font-light tracking-tight leading-[1.1] max-w-4xl text-gradient pb-2">
                   {t.name} <br />
-                  <span className="opacity-40 italic">{t.tagline}</span>
+                  <span className="opacity-40 italic text-foreground block mt-4 text-3xl sm:text-5xl" style={{ WebkitTextFillColor: 'initial' }}>{t.tagline}</span>
                 </h1>
               </div>
               <div className="space-y-6">
@@ -77,23 +88,42 @@ export default function Home() {
               <ControllerModel />
             </div>
           </div>
-        </header>
+        </motion.header>
 
         {/* Tech Arsenal Section */}
-        <div className="glass-panel mb-24 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+        <motion.div 
+          className="glass-panel mb-24"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+        >
           <TechArsenal />
-        </div>
+        </motion.div>
 
         {/* Projects Showcase */}
         <Showcase idList={[1, 2, 3]} />
 
         {/* Contact Section */}
-        <div id="contact" className="glass-panel mb-24 animate-fade-in" style={{ animationDelay: "0.6s" }}>
+        <motion.div 
+          id="contact" 
+          className="glass-panel mb-24"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+        >
           <ContactForm />
-        </div>
+        </motion.div>
 
         {/* Footer */}
-        <footer className="py-24 border-t border-foreground/5 animate-fade-in" style={{ animationDelay: "0.7s" }}>
+        <motion.footer 
+          className="py-24 border-t border-foreground/5"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        >
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
             <div className="space-y-2">
               <p className="text-sm opacity-40">
@@ -106,7 +136,7 @@ export default function Home() {
               <span className="text-[10px] uppercase tracking-widest opacity-40">{t.footer_status}</span>
             </div>
           </div>
-        </footer>
+        </motion.footer>
       </main>
     </div>
   );
