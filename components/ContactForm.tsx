@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import { motion } from "framer-motion";
 
 export default function ContactForm() {
   const { language } = useLanguage();
@@ -39,26 +38,14 @@ export default function ContactForm() {
   };
 
   return (
-    <motion.div 
-      className="space-y-16"
-      initial={{ opacity: 0, scale: 0.95 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6 }}
-    >
+    <div className="space-y-16">
       <div className="flex items-center space-x-8">
         <h2 className="text-xs uppercase tracking-[0.5em] font-medium whitespace-nowrap">{t.contact_title}</h2>
         <div className="geometric-line"></div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-        <motion.div 
-          className="space-y-10"
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
+        <div className="space-y-10">
           <p className="text-3xl font-light leading-relaxed tracking-tight max-w-md text-foreground">
             {t.contact_tagline}
           </p>
@@ -70,16 +57,9 @@ export default function ContactForm() {
               </a>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.form 
-          onSubmit={handleSubmit} 
-          className="space-y-8"
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
+        <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-6">
             <div className="group relative">
               <input 
@@ -132,8 +112,8 @@ export default function ContactForm() {
               </span>
             )}
           </div>
-        </motion.form>
+        </form>
       </div>
-    </motion.div>
+    </div>
   );
 }

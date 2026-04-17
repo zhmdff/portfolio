@@ -1,7 +1,6 @@
 "use client";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import { motion } from "framer-motion";
 
 const tech = [
   { name: "C#", color: "239120" },
@@ -33,19 +32,11 @@ export default function TechArsenal() {
       </div>
 
       <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-        {tech.map((item, idx) => (
-          <motion.div 
-            key={item.name} 
-            className="group relative px-6 py-3 border border-foreground/10 hover:border-foreground/30 transition-all duration-500 overflow-hidden cursor-pointer"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: idx * 0.05 }}
-            whileHover={{ y: -5 }}
-          >
+        {tech.map((item) => (
+          <div key={item.name} className="group relative px-6 py-3 border border-foreground/10 hover:border-foreground/30 transition-all duration-500 overflow-hidden">
             <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500" style={{ backgroundColor: `#${item.color}` }} />
             <span className="text-sm font-light tracking-widest uppercase">{item.name}</span>
-          </motion.div>
+          </div>
         ))}
       </div>
 
@@ -74,7 +65,7 @@ export default function TechArsenal() {
         <div className="space-y-8 flex flex-col justify-center">
           <div className="space-y-2">
             <p className="text-[10px] uppercase tracking-widest opacity-40 font-medium">{t.about_title}</p>
-            <p className="text-2xl font-light leading-relaxed italic opacity-80">"{t.about_me}"</p>
+            <p className="text-2xl font-light leading-relaxed italic opacity-80">&quot;{t.about_me}&quot;</p>
           </div>
           <div className="space-y-1">
             <p className="text-sm font-medium tracking-tighter">{t.name}</p>

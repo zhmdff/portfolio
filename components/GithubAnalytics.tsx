@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useTheme } from "@/context/ThemeContext";
 
 export default function GithubAnalytics() {
@@ -11,10 +12,13 @@ export default function GithubAnalytics() {
         <div className="geometric-line"></div>
       </div>
       <div className="flex justify-center p-4 sm:p-8 bg-foreground/[0.02] border border-foreground/5 overflow-hidden">
-        <img 
+        <Image 
           src={`https://github-readme-activity-graph.vercel.app/graph?username=zhmdff&theme=${theme === 'dark' ? 'github-compact' : 'react'}&hide_border=true&bg_color=transparent&color=58A6FF&line=58A6FF&point=${theme === 'dark' ? 'FFFFFF' : '000000'}`} 
           alt="GitHub Activity"
+          width={1200}
+          height={300}
           className="w-full max-w-4xl transition-opacity duration-1000"
+          unoptimized
         />
       </div>
     </section>

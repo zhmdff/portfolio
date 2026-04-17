@@ -9,6 +9,7 @@ import { projects } from "@/lib/projects";
 import SocialLinks from "@/components/SocialLinks";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
+import CustomCursor from "@/components/CustomCursor";
 
 export default function ProjectsPage() {
   const { language } = useLanguage();
@@ -69,6 +70,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="min-h-screen lg:h-screen flex flex-col lg:overflow-hidden selection:bg-foreground selection:text-background">
+      <CustomCursor />
       {/* Navigation */}
       <nav className="z-50 w-full bg-background/60 backdrop-blur-xl border-b border-foreground/5 shrink-0">
         <div className="max-w-7xl mx-auto px-6 sm:px-12 flex justify-between items-center py-6">
