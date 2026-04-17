@@ -13,17 +13,8 @@ function Controller({ modelPath }: { modelPath: string }) {
 
   return (
     <Center>
-      <Float
-        speed={2}
-        rotationIntensity={0.4}
-        floatIntensity={0.6}
-        floatingRange={[-0.05, 0.05]}
-      >
-        <primitive
-          object={scene}
-          scale={0.5}
-          rotation={[0.3, -0.8, 0]}
-        />
+      <Float speed={2} rotationIntensity={0.4} floatIntensity={0.6} floatingRange={[-0.05, 0.05]}>
+        <primitive object={scene} scale={0.5} rotation={[0.3, -0.8, 0]} />
       </Float>
     </Center>
   );
@@ -38,11 +29,7 @@ export default function ControllerModel() {
 
   return (
     <div className="controller-canvas-wrapper">
-      <Canvas
-        camera={{ position: [0, 0, 12], fov: 40 }}
-        style={{ width: "100%", height: "100%" }}
-        gl={{ antialias: true, alpha: true }}
-      >
+      <Canvas camera={{ position: [0, 0, 12], fov: 40 }} style={{ width: "100%", height: "100%" }} gl={{ antialias: true, alpha: true }}>
         <Suspense fallback={null}>
           <ambientLight intensity={0.5} />
           <directionalLight position={[5, 5, 5]} intensity={1} />
