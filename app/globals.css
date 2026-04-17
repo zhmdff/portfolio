@@ -134,3 +134,21 @@ body {
 .scroll-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* 3D Controller Model */
+.controller-canvas-wrapper {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 500px;
+  max-height: 500px;
+  min-height: 300px;
+  position: relative;
+}
+
+@media (max-width: 1024px) {
+  .controller-canvas-wrapper {
+    max-width: 360px;
+    max-height: 360px;
+    min-height: 240px;
+  }
+}

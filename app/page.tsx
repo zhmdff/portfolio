@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import ContactForm from "@/components/ContactForm";
 import Showcase from "@/components/Showcase";
 import SocialLinks from "@/components/SocialLinks";
@@ -9,6 +10,11 @@ import TechArsenal from "@/components/TechArsenal";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import { projects } from "@/lib/projects";
+
+const ControllerModel = dynamic(() => import("@/components/ControllerModel"), {
+  ssr: false,
+  loading: () => <div className="controller-canvas-wrapper" />,
+});
 
 export default function Home() {
   const { language } = useLanguage();
@@ -40,25 +46,35 @@ export default function Home() {
         </div>
 
         {/* Hero */}
-        <header className="py-24 sm:py-32 space-y-12 animate-fade-in" style={{ animationDelay: "0.1s" }}>
-          <div className="space-y-4">
-            <p className="text-xs uppercase tracking-[0.4em] opacity-40">
-              {t.role} / {t.location}
-            </p>
-            <h1 className="text-5xl sm:text-7xl font-light tracking-tight leading-[1.1] max-w-4xl">
-              {t.name} <br />
-              <span className="opacity-40 italic">{t.tagline}</span>
-            </h1>
-          </div>
-          <div className="space-y-6">
-            <p className="text-xl text-foreground/60 max-w-2xl font-light leading-relaxed">{t.description}</p>
-            <div className="flex items-center gap-4 pt-4">
-              <a href="#projects" className="btn-geometric">
-                {t.projects_title}
-              </a>
-              <a href="#contact" className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
-                {t.contact_title}
-              </a>
+        <header className="py-24 sm:py-32 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+          <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-8">
+            {/* Left – Text */}
+            <div className="flex-1 space-y-12">
+              <div className="space-y-4">
+                <p className="text-xs uppercase tracking-[0.4em] opacity-40">
+                  {t.role} / {t.location}
+                </p>
+                <h1 className="text-5xl sm:text-7xl font-light tracking-tight leading-[1.1] max-w-4xl">
+                  {t.name} <br />
+                  <span className="opacity-40 italic">{t.tagline}</span>
+                </h1>
+              </div>
+              <div className="space-y-6">
+                <p className="text-xl text-foreground/60 max-w-2xl font-light leading-relaxed">{t.description}</p>
+                <div className="flex items-center gap-4 pt-4">
+                  <a href="#projects" className="btn-geometric">
+                    {t.projects_title}
+                  </a>
+                  <a href="#contact" className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
+                    {t.contact_title}
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Right – 3D Controller */}
+            <div className="flex-1 flex justify-center items-center w-full lg:w-auto">
+              <ControllerModel />
             </div>
           </div>
         </header>
