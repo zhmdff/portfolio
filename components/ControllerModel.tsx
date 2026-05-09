@@ -5,8 +5,8 @@ import { useGLTF, Environment, Float, Center } from "@react-three/drei";
 import { Suspense } from "react";
 import { useTheme } from "@/context/ThemeContext";
 
-const LIGHT_MODEL = "/models/controller.glb";
-const DARK_MODEL = "/models/controller_dark.glb";
+const LIGHT_MODEL = "/models/controller_optimized.glb";
+const DARK_MODEL = "/models/controller_dark_optimized.glb";
 
 function Controller({ modelPath }: { modelPath: string }) {
   const { scene } = useGLTF(modelPath);
