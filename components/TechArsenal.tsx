@@ -50,12 +50,11 @@ export default function TechArsenal() {
             {`public class Developer 
 {
     public string Name => "${translations[language].name}";
-    public string[] Roles => new[] { 
-        "Backend Architect", 
-        "Full Stack Dev", 
-        "Game Dev" 
-    };
-    
+    public string[] Roles => new[] {
+        "Backend Architect",
+        "Systems Developer",
+        "Game Dev"
+    };    
     public string CurrentFocus => 
         "${t.focus}";
 }`}

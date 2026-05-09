@@ -19,19 +19,19 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://zhmdff.com"),
   title: {
-    default: "Mahmud Ahmadov | Software & Full-stack Developer",
+    default: "Mahmud Ahmadov | Software Developer",
     template: "%s | Mahmud Ahmadov",
   },
-  description: "Mahmud Ahmadov (zhmdff) is a Software & Full-stack Developer based in Baku, Azerbaijan. Specialist in high-performance systems and minimalist web design.",
-  keywords: ["Mahmud Ahmadov", "Mahmud Əhmədov", "Mahmud Ehmedov", "Mahmud", "zhmdff", "backend architect", "full-stack developer", "Baku", "Azerbaijan", "software engineer"],
+  description: "Mahmud Ahmadov (zhmdff) is a Software Developer based in Baku, Azerbaijan. Specialist in C#, system architecture, and high-performance web and game systems.",
+  keywords: ["Mahmud Ahmadov", "Mahmud Əhmədov", "Mahmud Ehmedov", "Mahmud", "zhmdff", "software developer", "C# developer", "backend architect", "systems engineer", "game developer", "Baku", "Azerbaijan", "software engineer"],
   authors: [{ name: "Mahmud Ahmadov" }],
   creator: "Mahmud Ahmadov",
   openGraph: {
     type: "website",
     locale: "az_AZ",
     url: "https://zhmdff.com",
-    title: "Mahmud Ahmadov | Software & Full-stack Developer",
-    description: "Mahmud Ahmadov (zhmdff) - Software & Full-stack Developer in Baku.",
+    title: "Mahmud Ahmadov | Software Developer",
+    description: "Mahmud Ahmadov (zhmdff) - Software Developer specializing in systems and C#.",
     siteName: "Mahmud Ahmadov Portfolio",
     images: [
       {
@@ -44,8 +44,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mahmud Ahmadov | Software & Full-stack Developer",
-    description: "Mahmud Ahmadov (zhmdff) - Portfolio of a Software & Full-stack Developer based in Baku.",
+    title: "Mahmud Ahmadov | Software Developer",
+    description: "Mahmud Ahmadov (zhmdff) - Portfolio of a Software Developer based in Baku.",
     images: ["/icon.jpg"],
     creator: "@zhmdff",
   },
@@ -74,7 +74,7 @@ export default function RootLayout({
     name: "Mahmud Ahmadov",
     alternateName: ["Mahmud Əhmədov", "Mahmud Ehmedov", "Mahmud", "zhmdff"],
     url: "https://zhmdff.com",
-    jobTitle: "Software & Full-stack Developer",
+    jobTitle: "Software Developer",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Baku",
