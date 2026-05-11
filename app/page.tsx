@@ -103,10 +103,6 @@ export default function Home() {
               </p>
               <p className="text-[10px] uppercase tracking-widest opacity-20">Azerbaijan / Baku</p>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-[10px] uppercase tracking-widest opacity-40">{t.footer_status}</span>
-            </div>
           </div>
         </footer>
       </main>
