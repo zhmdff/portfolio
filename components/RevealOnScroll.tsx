@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode, type ElementType, type ComponentType, type Ref, type CSSProperties } from "react";
 
 interface RevealOnScrollProps {
   children: ReactNode;
   delay?: number;
   className?: string;
-  as?: React.ElementType;
+  as?: ElementType;
 }
 
 export default function RevealOnScroll({
   children,
   delay = 0,
   className = "",
-  as: Tag = "div",
+  as = "div",
 }: RevealOnScrollProps) {
   const ref = useRef<HTMLElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -38,12 +38,16 @@ export default function RevealOnScroll({
     return () => observer.disconnect();
   }, []);
 
-  const tagProps: any = {
-    ref,
-    className: `${isVisible ? "animate-fade-in" : "opacity-0"} ${className}`,
-    style: { animationDelay: `${delay}s` },
-    children,
-  };
+  const Tag = as as unknown as ComponentType<{
+    ref?: Ref<HTMLElement>;
+    className?: string;
+    style?: CSSProperties;
+    children?: ReactNode;
+  }>;
 
-  return React.createElement(Tag as any, tagProps);
+  return (
+    <Tag ref={ref} className={`${isVisible ? "animate-fade-in" : "opacity-0"} ${className}`} style={{ animationDelay: `${delay}s` }}>
+      {children}
+    </Tag>
+  );
 }
