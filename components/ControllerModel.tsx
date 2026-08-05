@@ -1,12 +1,24 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { useGLTF, Float, Center } from "@react-three/drei";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
 
 const LIGHT_MODEL = "/models/controller_optimized.glb";
 const DARK_MODEL = "/models/controller_dark_optimized.glb";
+const TARGET_FPS = 30;
+
+function FrameLimiter() {
+  const invalidate = useThree((state) => state.invalidate);
+
+  useEffect(() => {
+    const interval = setInterval(() => invalidate(), 1000 / TARGET_FPS);
+    return () => clearInterval(interval);
+  }, [invalidate]);
+
+  return null;
+}
 
 function Controller({ modelPath }: { modelPath: string }) {
   const { scene } = useGLTF(modelPath);
@@ -48,10 +60,11 @@ export default function ControllerModel() {
       <Canvas
         camera={{ position: [0, 0, 12], fov: 40 }}
         dpr={[1, 1.5]}
-        frameloop={isVisible ? "always" : "never"}
+        frameloop={isVisible ? "demand" : "never"}
         style={{ width: "100%", height: "100%" }}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ antialias: false, alpha: true }}
       >
+        {isVisible && <FrameLimiter />}
         <Suspense fallback={null}>
           <ambientLight intensity={0.5} />
           <directionalLight position={[5, 5, 5]} intensity={1} />
