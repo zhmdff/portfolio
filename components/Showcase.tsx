@@ -28,7 +28,7 @@ export default function Showcase({ idList }: ShowcaseProps) {
         </div>
         <Link
           href="/projects"
-          className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity ml-8 whitespace-nowrap"
+          className="text-[10px] uppercase tracking-widest font-medium border border-foreground/20 px-4 py-2 hover:border-foreground hover:bg-foreground hover:text-background transition-all duration-300 ml-8 whitespace-nowrap"
         >
           {t.view_all_projects} &rarr;
         </Link>

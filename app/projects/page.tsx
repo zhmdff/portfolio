@@ -9,7 +9,6 @@ import { projects } from "@/lib/projects";
 import SocialLinks from "@/components/SocialLinks";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
-import CustomCursor from "@/components/CustomCursor";
 
 export default function ProjectsPage() {
   const { language } = useLanguage();
@@ -62,6 +61,16 @@ export default function ProjectsPage() {
     };
   }, []);
 
+  const activeIndex = projects.findIndex((p) => p.id === activeProjectId);
+
+  const goToProject = (direction: 1 | -1) => {
+    const nextIndex = activeIndex + direction;
+    if (nextIndex < 0 || nextIndex >= projects.length) return;
+    const target = projects[nextIndex];
+    const el = containerRef.current?.querySelector(`[data-project-id="${target.id}"]`);
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   const activeProject = projects.find((p) => p.id === activeProjectId) || projects[0];
   const projectName = language === "en" ? activeProject.name_en : activeProject.name;
   const projectSubtitle = language === "en" ? activeProject.subtitle_en : activeProject.subtitle;
@@ -70,7 +79,6 @@ export default function ProjectsPage() {
 
   return (
     <div className="min-h-screen lg:h-screen flex flex-col lg:overflow-hidden selection:bg-foreground selection:text-background">
-      <CustomCursor />
       {/* Navigation */}
       <nav className="z-50 w-full bg-background/60 backdrop-blur-xl border-b border-foreground/5 shrink-0">
         <div className="max-w-7xl mx-auto px-6 sm:px-12 flex justify-between items-center py-6">
@@ -222,9 +230,9 @@ export default function ProjectsPage() {
               ))}
             </div>
 
-            <div className="pt-8 animate-fade-in">
-              <Link 
-                href={activeProject.url} 
+            <div className="pt-8 animate-fade-in flex items-center gap-4">
+              <Link
+                href={activeProject.url}
                 target="_blank"
                 className="btn-geometric inline-flex items-center gap-3 text-[11px] py-3 px-6"
               >
@@ -233,6 +241,34 @@ export default function ProjectsPage() {
                   <path d="M7 17L17 7M17 7H7M17 7V17" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </Link>
+
+              <div className="flex items-center gap-2 ml-auto">
+                <button
+                  type="button"
+                  onClick={() => goToProject(-1)}
+                  disabled={activeIndex <= 0}
+                  aria-label="Previous project"
+                  className="p-2.5 border border-foreground/10 hover:border-foreground/30 disabled:opacity-20 disabled:hover:border-foreground/10 disabled:cursor-not-allowed transition-all duration-300"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-4 h-4">
+                    <path d="M12 19V5M5 12l7-7 7 7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                <span className="text-[10px] uppercase tracking-widest opacity-40 tabular-nums">
+                  {activeIndex + 1} / {projects.length}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => goToProject(1)}
+                  disabled={activeIndex >= projects.length - 1}
+                  aria-label="Next project"
+                  className="p-2.5 border border-foreground/10 hover:border-foreground/30 disabled:opacity-20 disabled:hover:border-foreground/10 disabled:cursor-not-allowed transition-all duration-300"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-4 h-4">
+                    <path d="M12 5v14M19 12l-7 7-7-7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export interface Project {
@@ -21,21 +22,23 @@ export default function ProjectCard({ project }: { project: Project }) {
   const { language } = useLanguage();
   const projectName = language === "en" ? project.name_en : project.name;
   const projectDescription = language === "en" ? project.description_en : project.description;
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <Link 
-      href={project.url} 
-      target="_blank" 
+    <Link
+      href={project.url}
+      target="_blank"
       rel="noopener noreferrer"
       className="group block space-y-6"
     >
-      <div className="relative aspect-video overflow-hidden border border-border group-hover:border-foreground/20 transition-colors duration-300">
+      <div className="relative aspect-video overflow-hidden border border-border group-hover:border-foreground/20 transition-colors duration-300 bg-foreground/[0.03]">
         <div className="absolute inset-0 sm:inset-[2.5%] group-hover:inset-0 transition-all duration-500 ease-out overflow-hidden">
           <Image
             src={project.image}
             alt={projectName}
             fill
-            className="object-cover"
+            className={`object-cover transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+            onLoad={() => setImageLoaded(true)}
           />
         </div>
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300 pointer-events-none" />

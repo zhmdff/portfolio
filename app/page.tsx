@@ -10,7 +10,6 @@ import TechArsenal from "@/components/TechArsenal";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import CustomCursor from "@/components/CustomCursor";
 
 const ControllerModel = dynamic(() => import("@/components/ControllerModel"), {
   ssr: false,
@@ -23,8 +22,6 @@ export default function Home() {
 
   return (
     <div className="selection:bg-foreground selection:text-background min-h-screen">
-      <CustomCursor />
-
       {/* Sticky Header */}
       <nav className="sticky top-0 z-50 w-full bg-background/60 backdrop-blur-xl border-b border-foreground/5 animate-fade-in">
         <div className="max-w-6xl mx-auto px-6 sm:px-12 flex justify-between items-center py-6">
