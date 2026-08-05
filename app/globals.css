@@ -67,12 +67,12 @@ body {
   }
 
   .nav-link {
-    @apply relative text-sm uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity;
+    @apply relative text-sm uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity duration-300;
   }
 
   .nav-link::after {
     content: '';
-    @apply absolute -bottom-1 left-0 w-0 h-px bg-foreground transition-all duration-300;
+    @apply absolute -bottom-1 left-0 w-0 h-px bg-foreground transition-all duration-500;
   }
 
   .nav-link:hover::after {

@@ -29,8 +29,8 @@ export default function ProjectCard({ project }: { project: Project }) {
       rel="noopener noreferrer"
       className="group block space-y-6"
     >
-      <div className="relative aspect-video overflow-hidden border border-border group-hover:border-foreground/20 transition-colors duration-500">
-        <div className="absolute inset-0 sm:inset-[2.5%] group-hover:inset-0 transition-all duration-700 ease-out overflow-hidden">
+      <div className="relative aspect-video overflow-hidden border border-border group-hover:border-foreground/20 transition-colors duration-300">
+        <div className="absolute inset-0 sm:inset-[2.5%] group-hover:inset-0 transition-all duration-500 ease-out overflow-hidden">
           <Image
             src={project.image}
             alt={projectName}
@@ -38,7 +38,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             className="object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300 pointer-events-none" />
       </div>
 
       <div className="space-y-4">

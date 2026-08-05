@@ -33,8 +33,8 @@ export default function TechArsenal() {
 
       <div className="flex flex-wrap gap-4 justify-center md:justify-start">
         {tech.map((item) => (
-          <div key={item.name} className="group relative px-6 py-3 border border-foreground/10 hover:border-foreground/30 transition-all duration-500 overflow-hidden">
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500" style={{ backgroundColor: `#${item.color}` }} />
+          <div key={item.name} className="group relative px-6 py-3 border border-foreground/10 hover:border-foreground/30 transition-colors duration-300 overflow-hidden">
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300" style={{ backgroundColor: `#${item.color}` }} />
             <span className="text-sm font-light tracking-widest uppercase">{item.name}</span>
           </div>
         ))}
