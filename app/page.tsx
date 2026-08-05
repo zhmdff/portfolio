@@ -49,7 +49,7 @@ export default function Home() {
         </div>
 
         {/* Hero */}
-        <RevealOnScroll as="header" className="py-24 sm:py-32" delay={0.1}>
+        <header className="py-24 sm:py-32 animate-fade-in" style={{ animationDelay: "0.1s" }}>
           <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-8">
             {/* Left – Text */}
             <div className="flex-1 space-y-12">
@@ -80,7 +80,7 @@ export default function Home() {
               <ControllerModel />
             </div>
           </div>
-        </RevealOnScroll>
+        </header>
 
         {/* Tech Arsenal Section */}
         <RevealOnScroll className="glass-panel mb-24" delay={0.2}>

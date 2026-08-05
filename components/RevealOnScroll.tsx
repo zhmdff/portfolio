@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode, type ElementType, type ComponentType, type Ref, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type JSX, type ReactNode, type ComponentType, type Ref, type CSSProperties } from "react";
 
 interface RevealOnScrollProps {
   children: ReactNode;
   delay?: number;
   className?: string;
-  as?: ElementType;
+  as?: keyof JSX.IntrinsicElements;
   id?: string;
 }
 
@@ -33,7 +33,7 @@ export default function RevealOnScroll({
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0, rootMargin: "0px 0px -10% 0px" }
     );
 
     observer.observe(el);
