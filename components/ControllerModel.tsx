@@ -2,7 +2,7 @@
 
 import { Canvas } from "@react-three/fiber";
 import { useGLTF, Float, Center } from "@react-three/drei";
-import { Suspense } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
 
 const LIGHT_MODEL = "/models/controller_optimized.glb";
@@ -27,11 +27,28 @@ export default function ControllerModel() {
   const { theme } = useTheme();
   const modelPath = theme === "dark" ? DARK_MODEL : LIGHT_MODEL;
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="controller-canvas-wrapper">
+    <div ref={wrapperRef} className="controller-canvas-wrapper">
       <Canvas
         camera={{ position: [0, 0, 12], fov: 40 }}
         dpr={[1, 1.5]}
+        frameloop={isVisible ? "always" : "never"}
         style={{ width: "100%", height: "100%" }}
         gl={{ antialias: true, alpha: true }}
       >
