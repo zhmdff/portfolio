@@ -9,14 +9,29 @@ export default function InteractiveGrid() {
     const container = containerRef.current;
     if (!container) return;
 
+    let rafId = 0;
+    let pendingX = 0;
+    let pendingY = 0;
+
+    const applyMousePosition = () => {
+      container.style.setProperty("--mouse-x", `${pendingX}px`);
+      container.style.setProperty("--mouse-y", `${pendingY}px`);
+      rafId = 0;
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      container.style.setProperty("--mouse-x", `${clientX}px`);
-      container.style.setProperty("--mouse-y", `${clientY}px`);
+      pendingX = e.clientX;
+      pendingY = e.clientY;
+      if (!rafId) {
+        rafId = requestAnimationFrame(applyMousePosition);
+      }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
