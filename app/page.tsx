@@ -7,6 +7,7 @@ import SocialLinks from "@/components/SocialLinks";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
 import TechArsenal from "@/components/TechArsenal";
+import RevealOnScroll from "@/components/RevealOnScroll";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import CustomCursor from "@/components/CustomCursor";
@@ -48,7 +49,7 @@ export default function Home() {
         </div>
 
         {/* Hero */}
-        <header className="py-24 sm:py-32 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+        <RevealOnScroll as="header" className="py-24 sm:py-32" delay={0.1}>
           <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-8">
             {/* Left – Text */}
             <div className="flex-1 space-y-12">
@@ -79,20 +80,22 @@ export default function Home() {
               <ControllerModel />
             </div>
           </div>
-        </header>
+        </RevealOnScroll>
 
         {/* Tech Arsenal Section */}
-        <div className="glass-panel mb-24 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+        <RevealOnScroll className="glass-panel mb-24" delay={0.2}>
           <TechArsenal />
-        </div>
+        </RevealOnScroll>
 
         {/* Projects Showcase */}
         <Showcase idList={[1, 2, 3]} />
 
         {/* Contact Section */}
-        <div id="contact" className="glass-panel mb-24 animate-fade-in" style={{ animationDelay: "0.6s" }}>
-          <ContactForm />
-        </div>
+        <RevealOnScroll as="div" className="glass-panel mb-24" delay={0.6}>
+          <div id="contact">
+            <ContactForm />
+          </div>
+        </RevealOnScroll>
 
         {/* Footer */}
         <footer>
