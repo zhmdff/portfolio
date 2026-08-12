@@ -74,7 +74,8 @@ export default function AdminPortfolioListPage() {
     <div className="max-w-4xl mx-auto p-8 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-light">Portfolio Items</h1>
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-center">
+          <Link href="/admin/messages" className="text-sm opacity-60 hover:opacity-100">Messages</Link>
           <Link href="/admin/portfolio/new" className="btn-geometric px-4 py-2 text-sm">New Item</Link>
           <button onClick={() => logout()} className="text-sm opacity-60 hover:opacity-100">Log out</button>
         </div>

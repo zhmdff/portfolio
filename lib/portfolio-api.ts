@@ -104,6 +104,61 @@ export function downloadUrl(id: number): string {
   return `${API_URL}/api/portfolio/${id}/download`;
 }
 
+export interface ContactMessageItem {
+  Id: number;
+  Email: string;
+  Subject: string;
+  Message: string;
+  IsRead: boolean;
+  EmailSent: boolean;
+  EmailError: string | null;
+  CreatedAt: string;
+}
+
+export async function submitContactMessage(input: {
+  email: string;
+  subject: string;
+  message: string;
+}): Promise<{ ok: boolean; id: number; emailSent: boolean }> {
+  const res = await fetch(`${API_URL}/api/contact`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      Email: input.email,
+      Subject: input.subject,
+      Message: input.message,
+    }),
+  });
+  if (!res.ok) {
+    const payload = await res.json().catch(() => ({}));
+    throw new Error(payload.error || "Failed to send message");
+  }
+  return res.json();
+}
+
+export async function fetchContactMessages(authFetch: AuthFetch): Promise<ContactMessageItem[]> {
+  return authFetch<ContactMessageItem[]>("/api/admin/contact");
+}
+
+export async function fetchContactMessage(authFetch: AuthFetch, id: number): Promise<ContactMessageItem> {
+  return authFetch<ContactMessageItem>(`/api/admin/contact/${id}`);
+}
+
+export async function markContactMessageRead(
+  authFetch: AuthFetch,
+  id: number,
+  isRead: boolean
+): Promise<ContactMessageItem> {
+  return authFetch<ContactMessageItem>(`/api/admin/contact/${id}/read`, {
+    method: "PATCH",
+    body: { IsRead: isRead },
+  });
+}
+
+export async function deleteContactMessage(authFetch: AuthFetch, id: number): Promise<void> {
+  await authFetch(`/api/admin/contact/${id}`, { method: "DELETE" });
+}
+
 // PortfolioItem.Image is a relative URL path like "/uploads/images/<guid>.png" served
 // by the API, not an absolute URL, so it needs the API's origin prefixed to be loadable.
 export function imageUrl(image: string | null | undefined): string | undefined {

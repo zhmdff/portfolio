@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
+import { submitContactMessage } from "@/lib/portfolio-api";
 
 export default function ContactForm() {
   const { language } = useLanguage();
@@ -15,23 +16,14 @@ export default function ContactForm() {
     setStatus("sending");
 
     try {
-      const res = await fetch("/api/email/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          to: "zhmdff@gmail.com",
-          subject: `${formData.subject} - from ${formData.email}`,
-          text: formData.message,
-        }),
+      await submitContactMessage({
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
       });
-
-      if (res.ok) {
-        setStatus("success");
-        setFormData({ email: "", subject: "", message: "" });
-        setTimeout(() => setStatus(""), 5000);
-      } else {
-        setStatus("error");
-      }
+      setStatus("success");
+      setFormData({ email: "", subject: "", message: "" });
+      setTimeout(() => setStatus(""), 5000);
     } catch {
       setStatus("error");
     }
