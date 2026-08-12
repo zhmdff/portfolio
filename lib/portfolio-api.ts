@@ -64,16 +64,32 @@ export interface ReorderItem {
 }
 
 export async function fetchPortfolioList(): Promise<PortfolioListItem[]> {
-  const res = await fetch(`${API_URL}/api/portfolio`, { next: { revalidate: 60 } });
+  const res = await fetch(`${API_URL}/api/portfolio`, { next: { tags: ["portfolio"], revalidate: 300 } });
   if (!res.ok) throw new Error("Failed to fetch portfolio list");
   return res.json();
 }
 
 export async function fetchPortfolioDetail(slug: string): Promise<PortfolioDetail | null> {
-  const res = await fetch(`${API_URL}/api/portfolio/${slug}`, { next: { revalidate: 60 } });
+  const res = await fetch(`${API_URL}/api/portfolio/${slug}`, { next: { tags: ["portfolio"], revalidate: 300 } });
   if (res.status === 404) return null;
   if (!res.ok) throw new Error("Failed to fetch portfolio item");
   return res.json();
+}
+
+// Best-effort on-demand cache invalidation. Called after admin mutations so
+// the public site reflects changes immediately instead of waiting up to the
+// 300s fallback revalidate window. Runs client-side (these functions are
+// invoked from "use client" admin pages), so it hits our own same-origin
+// route handler rather than the external API.
+async function triggerRevalidation(): Promise<void> {
+  try {
+    await fetch("/api/revalidate", {
+      method: "POST",
+      headers: { "x-revalidate-secret": process.env.NEXT_PUBLIC_REVALIDATE_SECRET ?? "" },
+    });
+  } catch {
+    // Best-effort — the 300s fallback window covers a missed call.
+  }
 }
 
 export function downloadUrl(id: number): string {
@@ -107,23 +123,29 @@ export async function fetchAdminPortfolioItem(token: string, id: number): Promis
 export async function createPortfolioItem(token: string, body: UpsertPortfolioItemRequest): Promise<PortfolioAdminItem> {
   const res = await fetch(`${API_URL}/api/admin/portfolio`, { method: "POST", headers: authHeaders(token), body: JSON.stringify(body) });
   if (!res.ok) throw new Error((await res.json()).error ?? "Failed to create item");
-  return res.json();
+  const result = await res.json();
+  await triggerRevalidation();
+  return result;
 }
 
 export async function updatePortfolioItem(token: string, id: number, body: UpsertPortfolioItemRequest): Promise<PortfolioAdminItem> {
   const res = await fetch(`${API_URL}/api/admin/portfolio/${id}`, { method: "PUT", headers: authHeaders(token), body: JSON.stringify(body) });
   if (!res.ok) throw new Error((await res.json()).error ?? "Failed to update item");
-  return res.json();
+  const result = await res.json();
+  await triggerRevalidation();
+  return result;
 }
 
 export async function deletePortfolioItem(token: string, id: number): Promise<void> {
   const res = await fetch(`${API_URL}/api/admin/portfolio/${id}`, { method: "DELETE", headers: authHeaders(token) });
   if (!res.ok) throw new Error("Failed to delete item");
+  await triggerRevalidation();
 }
 
 export async function reorderPortfolioItems(token: string, items: ReorderItem[]): Promise<void> {
   const res = await fetch(`${API_URL}/api/admin/portfolio/reorder`, { method: "PUT", headers: authHeaders(token), body: JSON.stringify(items) });
   if (!res.ok) throw new Error("Failed to reorder items");
+  await triggerRevalidation();
 }
 
 async function uploadFile(token: string, id: number, kind: "image" | "file", file: File): Promise<PortfolioAdminItem> {
@@ -135,7 +157,9 @@ async function uploadFile(token: string, id: number, kind: "image" | "file", fil
     body: formData,
   });
   if (!res.ok) throw new Error(`Failed to upload ${kind}`);
-  return res.json();
+  const result = await res.json();
+  await triggerRevalidation();
+  return result;
 }
 
 export const uploadPortfolioImage = (token: string, id: number, file: File) => uploadFile(token, id, "image", file);
