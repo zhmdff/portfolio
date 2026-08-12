@@ -85,7 +85,7 @@ export default function Home() {
         </RevealOnScroll>
 
         {/* Projects Showcase */}
-        <Showcase idList={[1, 2, 3]} />
+        <Showcase limit={3} />
 
         {/* Contact Section */}
         <RevealOnScroll as="div" className="glass-panel mb-24" delay={0.6}>
