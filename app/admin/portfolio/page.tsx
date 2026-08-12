@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getStoredToken, clearStoredToken } from "@/lib/admin-auth";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@zhmdff/auth-react";
 import {
   fetchAdminPortfolioList,
   deletePortfolioItem,
@@ -13,16 +12,13 @@ import {
 } from "@/lib/portfolio-api";
 
 export default function AdminPortfolioListPage() {
-  const router = useRouter();
+  const { fetch: authFetch, logout } = useAuth();
   const [items, setItems] = useState<PortfolioAdminItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const token = getStoredToken();
-
   const load = async () => {
-    if (!token) return;
     setLoading(true);
-    const list = await fetchAdminPortfolioList(token);
+    const list = await fetchAdminPortfolioList(authFetch);
     setItems(list);
     setLoading(false);
   };
@@ -33,15 +29,13 @@ export default function AdminPortfolioListPage() {
   }, []);
 
   const handleDelete = async (id: number) => {
-    if (!token) return;
     if (!confirm("Delete this portfolio item? This cannot be undone.")) return;
-    await deletePortfolioItem(token, id);
+    await deletePortfolioItem(authFetch, id);
     await load();
   };
 
   const handleTogglePublished = async (item: PortfolioAdminItem) => {
-    if (!token) return;
-    await updatePortfolioItem(token, item.Id, {
+    await updatePortfolioItem(authFetch, item.Id, {
       Slug: item.Slug,
       Published: !item.Published,
       Name: item.Name,
@@ -61,7 +55,6 @@ export default function AdminPortfolioListPage() {
   };
 
   const move = async (index: number, direction: -1 | 1) => {
-    if (!token) return;
     const targetIndex = index + direction;
     if (targetIndex < 0 || targetIndex >= items.length) return;
 
@@ -70,14 +63,9 @@ export default function AdminPortfolioListPage() {
     setItems(reordered);
 
     await reorderPortfolioItems(
-      token,
+      authFetch,
       reordered.map((item, i) => ({ Id: item.Id, SortOrder: i }))
     );
-  };
-
-  const handleLogout = () => {
-    clearStoredToken();
-    router.push("/admin/login");
   };
 
   if (loading) return <div className="p-8 text-sm opacity-60">Loading...</div>;
@@ -88,7 +76,7 @@ export default function AdminPortfolioListPage() {
         <h1 className="text-2xl font-light">Portfolio Items</h1>
         <div className="flex gap-4">
           <Link href="/admin/portfolio/new" className="btn-geometric px-4 py-2 text-sm">New Item</Link>
-          <button onClick={handleLogout} className="text-sm opacity-60 hover:opacity-100">Log out</button>
+          <button onClick={() => logout()} className="text-sm opacity-60 hover:opacity-100">Log out</button>
         </div>
       </div>
 

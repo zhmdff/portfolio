@@ -1,4 +1,12 @@
+import type { AuthFetchOptions } from "@zhmdff/auth-react";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5080";
+
+// Matches useAuth().fetch's signature — auto-injects Authorization, retries once
+// on 401 via refresh, and (per the package's internals) auto-JSON-stringifies
+// plain object bodies while passing FormData through untouched with no
+// Content-Type header, so it works for both CRUD and multipart uploads.
+export type AuthFetch = <T = unknown>(endpoint: string, options?: AuthFetchOptions) => Promise<T>;
 
 export interface PortfolioListItem {
   Id: number;
@@ -104,63 +112,45 @@ export function imageUrl(image: string | null | undefined): string | undefined {
   return `${API_URL}${image}`;
 }
 
-function authHeaders(token: string): HeadersInit {
-  return { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
+// authFetch prepends apiUrl itself, so endpoints below are relative paths.
+
+export async function fetchAdminPortfolioList(authFetch: AuthFetch): Promise<PortfolioAdminItem[]> {
+  return authFetch<PortfolioAdminItem[]>("/api/admin/portfolio");
 }
 
-export async function fetchAdminPortfolioList(token: string): Promise<PortfolioAdminItem[]> {
-  const res = await fetch(`${API_URL}/api/admin/portfolio`, { headers: authHeaders(token), cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch admin portfolio list");
-  return res.json();
+export async function fetchAdminPortfolioItem(authFetch: AuthFetch, id: number): Promise<PortfolioAdminItem> {
+  return authFetch<PortfolioAdminItem>(`/api/admin/portfolio/${id}`);
 }
 
-export async function fetchAdminPortfolioItem(token: string, id: number): Promise<PortfolioAdminItem> {
-  const res = await fetch(`${API_URL}/api/admin/portfolio/${id}`, { headers: authHeaders(token), cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch portfolio item");
-  return res.json();
-}
-
-export async function createPortfolioItem(token: string, body: UpsertPortfolioItemRequest): Promise<PortfolioAdminItem> {
-  const res = await fetch(`${API_URL}/api/admin/portfolio`, { method: "POST", headers: authHeaders(token), body: JSON.stringify(body) });
-  if (!res.ok) throw new Error((await res.json()).error ?? "Failed to create item");
-  const result = await res.json();
+export async function createPortfolioItem(authFetch: AuthFetch, body: UpsertPortfolioItemRequest): Promise<PortfolioAdminItem> {
+  const result = await authFetch<PortfolioAdminItem>("/api/admin/portfolio", { method: "POST", body });
   await triggerRevalidation();
   return result;
 }
 
-export async function updatePortfolioItem(token: string, id: number, body: UpsertPortfolioItemRequest): Promise<PortfolioAdminItem> {
-  const res = await fetch(`${API_URL}/api/admin/portfolio/${id}`, { method: "PUT", headers: authHeaders(token), body: JSON.stringify(body) });
-  if (!res.ok) throw new Error((await res.json()).error ?? "Failed to update item");
-  const result = await res.json();
+export async function updatePortfolioItem(authFetch: AuthFetch, id: number, body: UpsertPortfolioItemRequest): Promise<PortfolioAdminItem> {
+  const result = await authFetch<PortfolioAdminItem>(`/api/admin/portfolio/${id}`, { method: "PUT", body });
   await triggerRevalidation();
   return result;
 }
 
-export async function deletePortfolioItem(token: string, id: number): Promise<void> {
-  const res = await fetch(`${API_URL}/api/admin/portfolio/${id}`, { method: "DELETE", headers: authHeaders(token) });
-  if (!res.ok) throw new Error("Failed to delete item");
+export async function deletePortfolioItem(authFetch: AuthFetch, id: number): Promise<void> {
+  await authFetch(`/api/admin/portfolio/${id}`, { method: "DELETE" });
   await triggerRevalidation();
 }
 
-export async function reorderPortfolioItems(token: string, items: ReorderItem[]): Promise<void> {
-  const res = await fetch(`${API_URL}/api/admin/portfolio/reorder`, { method: "PUT", headers: authHeaders(token), body: JSON.stringify(items) });
-  if (!res.ok) throw new Error("Failed to reorder items");
+export async function reorderPortfolioItems(authFetch: AuthFetch, items: ReorderItem[]): Promise<void> {
+  await authFetch("/api/admin/portfolio/reorder", { method: "PUT", body: items });
   await triggerRevalidation();
 }
 
-async function uploadFile(token: string, id: number, kind: "image" | "file", file: File): Promise<PortfolioAdminItem> {
+async function uploadFile(authFetch: AuthFetch, id: number, kind: "image" | "file", file: File): Promise<PortfolioAdminItem> {
   const formData = new FormData();
   formData.append("file", file);
-  const res = await fetch(`${API_URL}/api/admin/portfolio/${id}/${kind}`, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
-    body: formData,
-  });
-  if (!res.ok) throw new Error(`Failed to upload ${kind}`);
-  const result = await res.json();
+  const result = await authFetch<PortfolioAdminItem>(`/api/admin/portfolio/${id}/${kind}`, { method: "POST", body: formData });
   await triggerRevalidation();
   return result;
 }
 
-export const uploadPortfolioImage = (token: string, id: number, file: File) => uploadFile(token, id, "image", file);
-export const uploadPortfolioFile = (token: string, id: number, file: File) => uploadFile(token, id, "file", file);
+export const uploadPortfolioImage = (authFetch: AuthFetch, id: number, file: File) => uploadFile(authFetch, id, "image", file);
+export const uploadPortfolioFile = (authFetch: AuthFetch, id: number, file: File) => uploadFile(authFetch, id, "file", file);

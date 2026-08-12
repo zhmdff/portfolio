@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { useAuth } from "@zhmdff/auth-react";
 import PortfolioForm from "@/components/admin/PortfolioForm";
 import {
   fetchAdminPortfolioItem,
@@ -11,20 +12,17 @@ import {
   UpsertPortfolioItemRequest,
   PortfolioAdminItem,
 } from "@/lib/portfolio-api";
-import { getStoredToken } from "@/lib/admin-auth";
 
 export default function EditPortfolioItemPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
+  const { fetch: authFetch } = useAuth();
   const id = Number(params.id);
   const [item, setItem] = useState<PortfolioAdminItem | null>(null);
   const [uploading, setUploading] = useState<"image" | "file" | null>(null);
 
-  const token = getStoredToken();
-
   const load = async () => {
-    if (!token) return;
-    const data = await fetchAdminPortfolioItem(token, id);
+    const data = await fetchAdminPortfolioItem(authFetch, id);
     setItem(data);
   };
 
@@ -34,25 +32,24 @@ export default function EditPortfolioItemPage() {
   }, [id]);
 
   const handleSubmit = async (values: UpsertPortfolioItemRequest) => {
-    if (!token) return;
-    await updatePortfolioItem(token, id, values);
+    await updatePortfolioItem(authFetch, id, values);
     router.push("/admin/portfolio");
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !token) return;
+    if (!file) return;
     setUploading("image");
-    await uploadPortfolioImage(token, id, file);
+    await uploadPortfolioImage(authFetch, id, file);
     await load();
     setUploading(null);
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !token) return;
+    if (!file) return;
     setUploading("file");
-    await uploadPortfolioFile(token, id, file);
+    await uploadPortfolioFile(authFetch, id, file);
     await load();
     setUploading(null);
   };

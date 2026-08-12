@@ -1,17 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useAuth } from "@zhmdff/auth-react";
 import PortfolioForm from "@/components/admin/PortfolioForm";
 import { createPortfolioItem, UpsertPortfolioItemRequest } from "@/lib/portfolio-api";
-import { getStoredToken } from "@/lib/admin-auth";
 
 export default function NewPortfolioItemPage() {
   const router = useRouter();
+  const { fetch: authFetch } = useAuth();
 
   const handleSubmit = async (values: UpsertPortfolioItemRequest) => {
-    const token = getStoredToken();
-    if (!token) return;
-    const created = await createPortfolioItem(token, values);
+    const created = await createPortfolioItem(authFetch, values);
     router.push(`/admin/portfolio/${created.Id}/edit`);
   };
 

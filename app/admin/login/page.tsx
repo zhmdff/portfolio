@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { login, setStoredToken } from "@/lib/admin-auth";
+import { useAuth } from "@zhmdff/auth-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -16,12 +17,11 @@ export default function AdminLoginPage() {
     setError(null);
     setLoading(true);
     try {
-      const result = await login(identifier, password);
-      if (!result.Success || !result.AccessToken) {
+      const result = await login({ Identifier: identifier, Password: password });
+      if (!result.Success) {
         setError(result.ErrorMessage ?? "Login failed.");
         return;
       }
-      setStoredToken(result.AccessToken);
       router.push("/admin/portfolio");
     } catch {
       setError("Network error. Is the API running?");
