@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import { projects } from "@/lib/projects";
+import { fetchPortfolioList, PortfolioListItem } from "@/lib/portfolio-api";
 import SocialLinks from "@/components/SocialLinks";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -13,8 +13,18 @@ import ThemeToggle from "@/components/ThemeToggle";
 export default function ProjectsPage() {
   const { language } = useLanguage();
   const t = translations[language];
-  const [activeProjectId, setActiveProjectId] = useState(projects[0].id);
+  const [projects, setProjects] = useState<PortfolioListItem[]>([]);
+  const [activeProjectId, setActiveProjectId] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetchPortfolioList()
+      .then((list) => {
+        setProjects(list);
+        if (list.length > 0) setActiveProjectId(list[0].Id);
+      })
+      .catch(() => setProjects([]));
+  }, []);
 
   useEffect(() => {
     const observerOptions = {
@@ -37,7 +47,7 @@ export default function ProjectsPage() {
     projectElements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, []);
+  }, [projects]);
 
   const infoPanelRef = useRef<HTMLDivElement>(null);
 
@@ -61,21 +71,28 @@ export default function ProjectsPage() {
     };
   }, []);
 
-  const activeIndex = projects.findIndex((p) => p.id === activeProjectId);
+  if (projects.length === 0 || activeProjectId === null) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-sm opacity-40">
+        Loading...
+      </div>
+    );
+  }
+
+  const activeIndex = projects.findIndex((p) => p.Id === activeProjectId);
 
   const goToProject = (direction: 1 | -1) => {
     const nextIndex = activeIndex + direction;
     if (nextIndex < 0 || nextIndex >= projects.length) return;
     const target = projects[nextIndex];
-    const el = containerRef.current?.querySelector(`[data-project-id="${target.id}"]`);
+    const el = containerRef.current?.querySelector(`[data-project-id="${target.Id}"]`);
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
-  const activeProject = projects.find((p) => p.id === activeProjectId) || projects[0];
-  const projectName = language === "en" ? activeProject.name_en : activeProject.name;
-  const projectSubtitle = language === "en" ? activeProject.subtitle_en : activeProject.subtitle;
-  const projectDescription = language === "en" ? activeProject.description_en : activeProject.description;
-  const projectDetails = language === "en" ? activeProject.technicalDetails_en : activeProject.technicalDetails;
+  const activeProject = projects.find((p) => p.Id === activeProjectId) || projects[0];
+  const projectName = language === "en" ? activeProject.NameEn : activeProject.Name;
+  const projectSubtitle = language === "en" ? activeProject.SubtitleEn : activeProject.Subtitle;
+  const projectDescription = language === "en" ? activeProject.DescriptionEn : activeProject.Description;
 
   return (
     <div className="min-h-screen lg:h-screen flex flex-col lg:overflow-hidden selection:bg-foreground selection:text-background">
@@ -99,56 +116,42 @@ export default function ProjectsPage() {
         {/* Mobile View: Vertical list of project cards */}
         <div className="lg:hidden w-full bg-background space-y-12 pb-24">
           {projects.map((project) => (
-            <div key={project.id} className="p-6 space-y-8 border-b border-foreground/5 last:border-0">
+            <div key={project.Id} className="p-6 space-y-8 border-b border-foreground/5 last:border-0">
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <h1 className="font-light tracking-tight text-3xl leading-tight">
-                    {language === "en" ? project.name_en : project.name}
-                  </h1>
+                  <Link href={`/projects/${project.Slug}`} className="font-light tracking-tight text-3xl leading-tight hover:opacity-70 transition-opacity">
+                    {language === "en" ? project.NameEn : project.Name}
+                  </Link>
                 </div>
-                {(language === "en" ? project.subtitle_en : project.subtitle) && (
+                {(language === "en" ? project.SubtitleEn : project.Subtitle) && (
                   <p className="text-[10px] uppercase tracking-[0.3em] font-medium opacity-40">
-                    {language === "en" ? project.subtitle_en : project.subtitle}
+                    {language === "en" ? project.SubtitleEn : project.Subtitle}
                   </p>
                 )}
               </div>
 
               {/* Mobile Image - 16:9 with same premium styling */}
-              <div className="relative w-full aspect-video">
-                <div className="absolute inset-0 bg-foreground/5 overflow-hidden border border-foreground/5 rounded-xl shadow-lg">
-                  <Image
-                    src={project.image}
-                    alt={language === "en" ? project.name_en : project.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-
-              <p className="text-base text-foreground/70 font-light leading-relaxed">
-                {language === "en" ? project.description_en : project.description}
-              </p>
-
-              {(language === "en" ? project.technicalDetails_en : project.technicalDetails) && (
-                <div className="space-y-4 pt-6 border-t border-foreground/5">
-                  <h3 className="text-[9px] uppercase tracking-widest font-bold opacity-30">
-                    {t.technical_details}
-                  </h3>
-                  <ul className="space-y-2.5">
-                    {(language === "en" ? project.technicalDetails_en : project.technicalDetails)?.map((detail, i) => (
-                      <li key={i} className="flex gap-3 text-[13px] text-foreground/60 font-light leading-relaxed">
-                        <span className="text-foreground/20">•</span>
-                        {detail}
-                      </li>
-                    ))}
-                  </ul>
+              {project.Image && (
+                <div className="relative w-full aspect-video">
+                  <div className="absolute inset-0 bg-foreground/5 overflow-hidden border border-foreground/5 rounded-xl shadow-lg">
+                    <Image
+                      src={project.Image}
+                      alt={language === "en" ? project.NameEn : project.Name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
               )}
 
+              <p className="text-base text-foreground/70 font-light leading-relaxed">
+                {language === "en" ? project.DescriptionEn : project.Description}
+              </p>
+
               <div className="flex flex-wrap gap-2 pt-2">
-                {project.tags.map(tag => (
-                  <span 
-                    key={tag} 
+                {project.Tags.map(tag => (
+                  <span
+                    key={tag}
                     className="text-[9px] uppercase tracking-widest text-foreground/40 px-2 py-1 border border-foreground/10 bg-foreground/[0.02] rounded-sm"
                   >
                     {tag}
@@ -156,13 +159,12 @@ export default function ProjectsPage() {
                 ))}
               </div>
 
-              <div className="pt-4">
-                <Link 
-                  href={project.url} 
-                  target="_blank"
+              <div className="pt-4 flex gap-3">
+                <Link
+                  href={`/projects/${project.Slug}`}
                   className="btn-geometric inline-flex items-center gap-3 text-[11px] py-3 px-6 w-full justify-center"
                 >
-                  <span>{t.live_demo}</span>
+                  <span>{t.technical_details}</span>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-3.5 h-3.5">
                     <path d="M7 17L17 7M17 7H7M17 7V17" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
@@ -173,23 +175,23 @@ export default function ProjectsPage() {
         </div>
 
         {/* Desktop View: Split-screen synchronized scroller */}
-        <div 
+        <div
           ref={infoPanelRef}
           className="hidden lg:flex w-[40%] p-16 overflow-hidden flex-col justify-center animate-fade-in border-r border-foreground/5 bg-background scroll-hide relative z-10 h-full"
         >
           <div className="max-w-md space-y-8 my-auto">
             <div className="space-y-4">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity inline-flex items-center gap-2"
               >
                 &larr; {t.back_to_home}
               </Link>
-              
+
               <div className="flex items-center gap-3 transition-opacity duration-300" key={`title-${activeProjectId}`}>
-                <h1 className="font-light tracking-tight text-4xl sm:text-5xl leading-tight">
+                <Link href={`/projects/${activeProject.Slug}`} className="font-light tracking-tight text-4xl sm:text-5xl leading-tight hover:opacity-70 transition-opacity">
                   {projectName}
-                </h1>
+                </Link>
               </div>
 
               {projectSubtitle && (
@@ -203,26 +205,10 @@ export default function ProjectsPage() {
               {projectDescription}
             </p>
 
-            {projectDetails && (
-              <div className="space-y-4 pt-6 border-t border-foreground/5 animate-fade-in" key={`details-${activeProjectId}`}>
-                <h3 className="text-[9px] uppercase tracking-widest font-bold opacity-30">
-                  {t.technical_details}
-                </h3>
-                <ul className="space-y-2.5">
-                  {projectDetails.map((detail, i) => (
-                    <li key={i} className="flex gap-3 text-[13px] text-foreground/60 font-light leading-relaxed">
-                      <span className="text-foreground/20">•</span>
-                      {detail}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
             <div className="flex flex-wrap gap-2 pt-2 animate-fade-in" key={`tags-${activeProjectId}`}>
-              {activeProject.tags.map(tag => (
-                <span 
-                  key={tag} 
+              {activeProject.Tags.map(tag => (
+                <span
+                  key={tag}
                   className="text-[9px] uppercase tracking-widest text-foreground/40 px-2 py-1 border border-foreground/10 bg-foreground/[0.02] rounded-sm"
                 >
                   {tag}
@@ -231,16 +217,28 @@ export default function ProjectsPage() {
             </div>
 
             <div className="pt-8 animate-fade-in flex items-center gap-4">
-              <Link
-                href={activeProject.url}
-                target="_blank"
-                className="btn-geometric inline-flex items-center gap-3 text-[11px] py-3 px-6"
-              >
-                <span>{t.live_demo}</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-3.5 h-3.5">
-                  <path d="M7 17L17 7M17 7H7M17 7V17" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
+              {activeProject.Url ? (
+                <Link
+                  href={activeProject.Url}
+                  target="_blank"
+                  className="btn-geometric inline-flex items-center gap-3 text-[11px] py-3 px-6"
+                >
+                  <span>{t.live_demo}</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-3.5 h-3.5">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </Link>
+              ) : (
+                <Link
+                  href={`/projects/${activeProject.Slug}`}
+                  className="btn-geometric inline-flex items-center gap-3 text-[11px] py-3 px-6"
+                >
+                  <span>{t.technical_details}</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-3.5 h-3.5">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </Link>
+              )}
 
               <div className="flex items-center gap-2 ml-auto">
                 <button
@@ -274,30 +272,33 @@ export default function ProjectsPage() {
         </div>
 
         {/* Desktop View Right Side: Scrollable Images */}
-        <div 
+        <div
           ref={containerRef}
           className="hidden lg:block w-[60%] overflow-y-auto scroll-smooth snap-y snap-mandatory bg-foreground/[0.01] custom-scrollbar h-full"
         >
           {projects.map((project) => (
-            <div 
-              key={project.id}
-              data-project-id={project.id}
+            <Link
+              key={project.Id}
+              href={`/projects/${project.Slug}`}
+              data-project-id={project.Id}
               className="h-full flex items-center justify-center p-20 snap-center shrink-0"
             >
               <div className="relative w-full aspect-video group">
                 <div className="absolute inset-0 bg-foreground/5 overflow-hidden border border-foreground/5 group-hover:border-foreground/10 transition-all duration-700 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-                  <Image
-                    src={project.image}
-                    alt={language === "en" ? project.name_en : project.name}
-                    fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
-                    priority={project.id === activeProjectId}
-                  />
+                  {project.Image && (
+                    <Image
+                      src={project.Image}
+                      alt={language === "en" ? project.NameEn : project.Name}
+                      fill
+                      className="object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
+                      priority={project.Id === activeProjectId}
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                 </div>
-                <div className={`absolute -inset-2 border border-foreground/10 transition-opacity duration-700 pointer-events-none rounded-2xl ${activeProjectId === project.id ? 'opacity-100' : 'opacity-0'}`} />
+                <div className={`absolute -inset-2 border border-foreground/10 transition-opacity duration-700 pointer-events-none rounded-2xl ${activeProjectId === project.Id ? 'opacity-100' : 'opacity-0'}`} />
               </div>
-            </div>
+            </Link>
           ))}
           <div className="h-[20vh]" />
         </div>

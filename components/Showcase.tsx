@@ -1,21 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ProjectCard from "./ProjectCard";
-import { projects } from "@/lib/projects";
+import { fetchPortfolioList, PortfolioListItem } from "@/lib/portfolio-api";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import Link from "next/link";
 import RevealOnScroll from "@/components/RevealOnScroll";
 
 interface ShowcaseProps {
-  idList: number[];
+  limit?: number;
 }
 
-export default function Showcase({ idList }: ShowcaseProps) {
+export default function Showcase({ limit }: ShowcaseProps) {
   const { language } = useLanguage();
   const t = translations[language];
-  
-  const showcasedProjects = projects.filter((project) => idList.includes(project.id));
+  const [projects, setProjects] = useState<PortfolioListItem[]>([]);
+
+  useEffect(() => {
+    fetchPortfolioList().then(setProjects).catch(() => setProjects([]));
+  }, []);
+
+  const showcasedProjects = limit ? projects.slice(0, limit) : projects;
 
   return (
     <RevealOnScroll as="section" className="py-24 space-y-16" id="projects">
@@ -36,7 +42,7 @@ export default function Showcase({ idList }: ShowcaseProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
         {showcasedProjects.map((project, idx) => (
-          <RevealOnScroll key={project.id} delay={0.1 + idx * 0.1}>
+          <RevealOnScroll key={project.Id} delay={0.1 + idx * 0.1}>
             <ProjectCard project={project} />
           </RevealOnScroll>
         ))}
