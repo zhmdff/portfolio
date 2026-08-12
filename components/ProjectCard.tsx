@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { PortfolioListItem } from "@/lib/portfolio-api";
+import { imageUrl, PortfolioListItem } from "@/lib/portfolio-api";
 
 export default function ProjectCard({ project }: { project: PortfolioListItem }) {
   const { language } = useLanguage();
@@ -16,7 +16,7 @@ export default function ProjectCard({ project }: { project: PortfolioListItem })
         <div className="absolute inset-0 sm:inset-[2.5%] group-hover:inset-0 transition-all duration-500 ease-out overflow-hidden">
           {project.Image && (
             <Image
-              src={project.Image}
+              src={imageUrl(project.Image)!}
               alt={projectName}
               fill
               className={`object-cover transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}

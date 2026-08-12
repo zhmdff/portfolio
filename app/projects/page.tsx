@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import { fetchPortfolioList, PortfolioListItem } from "@/lib/portfolio-api";
+import { fetchPortfolioList, imageUrl, PortfolioListItem } from "@/lib/portfolio-api";
 import SocialLinks from "@/components/SocialLinks";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -135,7 +135,7 @@ export default function ProjectsPage() {
                 <div className="relative w-full aspect-video">
                   <div className="absolute inset-0 bg-foreground/5 overflow-hidden border border-foreground/5 rounded-xl shadow-lg">
                     <Image
-                      src={project.Image}
+                      src={imageUrl(project.Image)!}
                       alt={language === "en" ? project.NameEn : project.Name}
                       fill
                       className="object-cover"
@@ -221,6 +221,7 @@ export default function ProjectsPage() {
                 <Link
                   href={activeProject.Url}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-geometric inline-flex items-center gap-3 text-[11px] py-3 px-6"
                 >
                   <span>{t.live_demo}</span>
@@ -287,7 +288,7 @@ export default function ProjectsPage() {
                 <div className="absolute inset-0 bg-foreground/5 overflow-hidden border border-foreground/5 group-hover:border-foreground/10 transition-all duration-700 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
                   {project.Image && (
                     <Image
-                      src={project.Image}
+                      src={imageUrl(project.Image)!}
                       alt={language === "en" ? project.NameEn : project.Name}
                       fill
                       className="object-cover transition-transform duration-1000 group-hover:scale-[1.03]"

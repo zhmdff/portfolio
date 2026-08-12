@@ -80,6 +80,14 @@ export function downloadUrl(id: number): string {
   return `${API_URL}/api/portfolio/${id}/download`;
 }
 
+// PortfolioItem.Image is a relative URL path like "/uploads/images/<guid>.png" served
+// by the API, not an absolute URL, so it needs the API's origin prefixed to be loadable.
+export function imageUrl(image: string | null | undefined): string | undefined {
+  if (!image) return undefined;
+  if (/^https?:\/\//i.test(image)) return image;
+  return `${API_URL}${image}`;
+}
+
 function authHeaders(token: string): HeadersInit {
   return { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
 }

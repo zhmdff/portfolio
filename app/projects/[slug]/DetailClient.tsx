@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import { PortfolioDetail } from "@/lib/portfolio-api";
+import { imageUrl, PortfolioDetail } from "@/lib/portfolio-api";
 
 export default function DetailClient({ project, downloadHref }: { project: PortfolioDetail; downloadHref: string }) {
   const { language } = useLanguage();
@@ -25,7 +25,7 @@ export default function DetailClient({ project, downloadHref }: { project: Portf
 
       {project.Image && (
         <div className="relative aspect-video border border-foreground/5 rounded-xl overflow-hidden">
-          <Image src={project.Image} alt={name} fill className="object-cover" />
+          <Image src={imageUrl(project.Image)!} alt={name} fill className="object-cover" />
         </div>
       )}
 
@@ -51,7 +51,7 @@ export default function DetailClient({ project, downloadHref }: { project: Portf
 
       <div className="flex gap-4 pt-4">
         {project.Url && (
-          <Link href={project.Url} target="_blank" className="btn-geometric px-6 py-3 text-[11px]">
+          <Link href={project.Url} target="_blank" rel="noopener noreferrer" className="btn-geometric px-6 py-3 text-[11px]">
             {t.live_demo}
           </Link>
         )}
