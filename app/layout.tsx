@@ -5,6 +5,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import InteractiveGrid from "@/components/InteractiveGrid";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,8 +23,23 @@ export const metadata: Metadata = {
     default: "Mahmud Ahmadov | Software Developer",
     template: "%s | Mahmud Ahmadov",
   },
-  description: "Mahmud Ahmadov (zhmdff) is a Software Developer based in Baku, Azerbaijan. Specialist in C#, system architecture, and high-performance web and game systems.",
-  keywords: ["Mahmud Ahmadov", "Mahmud Əhmədov", "Mahmud Ehmedov", "Mahmud", "zhmdff", "software developer", "C# developer", "backend architect", "systems engineer", "game developer", "Baku", "Azerbaijan", "software engineer"],
+  description:
+    "Mahmud Ahmadov (zhmdff) is a Software Developer based in Baku, Azerbaijan. Specialist in C#, system architecture, and high-performance web and game systems.",
+  keywords: [
+    "Mahmud Ahmadov",
+    "Mahmud Əhmədov",
+    "Mahmud Ehmedov",
+    "Mahmud",
+    "zhmdff",
+    "software developer",
+    "C# developer",
+    "backend architect",
+    "systems engineer",
+    "game developer",
+    "Baku",
+    "Azerbaijan",
+    "software engineer",
+  ],
   authors: [{ name: "Mahmud Ahmadov" }],
   creator: "Mahmud Ahmadov",
   openGraph: {
@@ -31,7 +47,8 @@ export const metadata: Metadata = {
     locale: "az_AZ",
     url: "https://zhmdff.com",
     title: "Mahmud Ahmadov | Software Developer",
-    description: "Mahmud Ahmadov (zhmdff) - Software Developer specializing in systems and C#.",
+    description:
+      "Mahmud Ahmadov (zhmdff) - Software Developer specializing in systems and C#.",
     siteName: "Mahmud Ahmadov Portfolio",
     images: [
       {
@@ -45,7 +62,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mahmud Ahmadov | Software Developer",
-    description: "Mahmud Ahmadov (zhmdff) - Portfolio of a Software Developer based in Baku.",
+    description:
+      "Mahmud Ahmadov (zhmdff) - Portfolio of a Software Developer based in Baku.",
     images: ["/icon.jpg"],
     creator: "@zhmdff",
   },
@@ -80,7 +98,10 @@ export default function RootLayout({
       addressLocality: "Baku",
       addressCountry: "Azerbaijan",
     },
-    sameAs: ["https://github.com/zhmdff", "https://linkedin.com/in/mahmud-ahmadov-a57bab261"],
+    sameAs: [
+      "https://github.com/zhmdff",
+      "https://linkedin.com/in/mahmud-ahmadov-a57bab261",
+    ],
   };
 
   return (
@@ -106,9 +127,15 @@ export default function RootLayout({
             `,
           }}
         />
-        <Script id="json-ld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <Script
+          id="json-ld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <ThemeProvider>
           <InteractiveGrid />
           <LanguageProvider>{children}</LanguageProvider>
