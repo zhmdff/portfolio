@@ -140,6 +140,8 @@ export default function RootLayout({
           <InteractiveGrid />
           <LanguageProvider>{children}</LanguageProvider>
         </ThemeProvider>
+
+        <Analytics />
       </body>
     </html>
   );
