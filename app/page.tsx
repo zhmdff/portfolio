@@ -80,16 +80,18 @@ export default function Home() {
         </header>
 
         {/* Tech Arsenal Section */}
-        <RevealOnScroll className="glass-panel mb-24" delay={0.2}>
-          <TechArsenal />
+        <RevealOnScroll delay={0.2}>
+          <div className="glass-panel mb-24">
+            <TechArsenal />
+          </div>
         </RevealOnScroll>
 
         {/* Projects Showcase */}
         <Showcase limit={3} />
 
         {/* Contact Section */}
-        <RevealOnScroll as="div" className="glass-panel mb-24" delay={0.6}>
-          <div id="contact">
+        <RevealOnScroll delay={0.2}>
+          <div id="contact" className="glass-panel mb-24">
             <ContactForm />
           </div>
         </RevealOnScroll>

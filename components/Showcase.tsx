@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProjectCard from "./ProjectCard";
-import { fetchPortfolioList, PortfolioListItem } from "@/lib/portfolio-api";
+import ProjectCard, { ProjectCardSkeleton } from "./ProjectCard";
+import { fetchPortfolioList, getCachedPortfolioList, PortfolioListItem } from "@/lib/portfolio-api";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import Link from "next/link";
@@ -15,17 +15,35 @@ interface ShowcaseProps {
 export default function Showcase({ limit }: ShowcaseProps) {
   const { language } = useLanguage();
   const t = translations[language];
-  const [projects, setProjects] = useState<PortfolioListItem[]>([]);
+  const [projects, setProjects] = useState<PortfolioListItem[]>(() => getCachedPortfolioList() ?? []);
+  const [loading, setLoading] = useState(() => getCachedPortfolioList() === null);
 
   useEffect(() => {
-    fetchPortfolioList().then(setProjects).catch(() => setProjects([]));
+    let cancelled = false;
+    fetchPortfolioList()
+      .then((list) => {
+        if (!cancelled) {
+          setProjects(list);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setProjects([]);
+          setLoading(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const showcasedProjects = limit ? projects.slice(0, limit) : projects;
+  const skeletonCount = limit ?? 3;
 
   return (
-    <RevealOnScroll as="section" className="py-24 space-y-16" id="projects">
-      <div className="flex items-center justify-between">
+    <section className="py-24 space-y-16" id="projects">
+      <RevealOnScroll className="flex items-center justify-between">
         <div className="flex items-center space-x-8 flex-1">
           <h2 className="text-xs uppercase tracking-[0.5em] font-medium whitespace-nowrap">
             {t.projects_title}
@@ -38,15 +56,22 @@ export default function Showcase({ limit }: ShowcaseProps) {
         >
           {t.view_all_projects} &rarr;
         </Link>
-      </div>
+      </RevealOnScroll>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-        {showcasedProjects.map((project, idx) => (
-          <RevealOnScroll key={project.Id} delay={0.1 + idx * 0.1}>
-            <ProjectCard project={project} />
-          </RevealOnScroll>
-        ))}
+      <div
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16"
+        aria-busy={loading}
+      >
+        {loading
+          ? Array.from({ length: skeletonCount }, (_, idx) => (
+              <ProjectCardSkeleton key={idx} />
+            ))
+          : showcasedProjects.map((project, idx) => (
+              <RevealOnScroll key={project.Id} delay={idx * 0.08}>
+                <ProjectCard project={project} />
+              </RevealOnScroll>
+            ))}
       </div>
-    </RevealOnScroll>
+    </section>
   );
 }

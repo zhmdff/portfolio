@@ -71,10 +71,41 @@ export interface ReorderItem {
   SortOrder: number;
 }
 
+const PORTFOLIO_LIST_TTL_MS = 300_000;
+
+let portfolioListCache: { data: PortfolioListItem[]; expiresAt: number } | null = null;
+let portfolioListInflight: Promise<PortfolioListItem[]> | null = null;
+
+export function getCachedPortfolioList(): PortfolioListItem[] | null {
+  if (portfolioListCache && portfolioListCache.expiresAt > Date.now()) {
+    return portfolioListCache.data;
+  }
+  return null;
+}
+
+export function invalidatePortfolioCache(): void {
+  portfolioListCache = null;
+  portfolioListInflight = null;
+}
+
 export async function fetchPortfolioList(): Promise<PortfolioListItem[]> {
-  const res = await fetch(`${API_URL}/api/portfolio`, { next: { tags: ["portfolio"], revalidate: 300 } });
-  if (!res.ok) throw new Error("Failed to fetch portfolio list");
-  return res.json();
+  const cached = getCachedPortfolioList();
+  if (cached) return cached;
+  if (portfolioListInflight) return portfolioListInflight;
+
+  portfolioListInflight = (async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/portfolio`, { next: { tags: ["portfolio"], revalidate: 300 } });
+      if (!res.ok) throw new Error("Failed to fetch portfolio list");
+      const data: PortfolioListItem[] = await res.json();
+      portfolioListCache = { data, expiresAt: Date.now() + PORTFOLIO_LIST_TTL_MS };
+      return data;
+    } finally {
+      portfolioListInflight = null;
+    }
+  })();
+
+  return portfolioListInflight;
 }
 
 export async function fetchPortfolioDetail(slug: string): Promise<PortfolioDetail | null> {
@@ -90,6 +121,7 @@ export async function fetchPortfolioDetail(slug: string): Promise<PortfolioDetai
 // invoked from "use client" admin pages), so it hits our own same-origin
 // route handler rather than the external API.
 async function triggerRevalidation(): Promise<void> {
+  invalidatePortfolioCache();
   try {
     await fetch("/api/revalidate", {
       method: "POST",

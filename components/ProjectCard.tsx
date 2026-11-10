@@ -4,6 +4,30 @@ import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { imageUrl, PortfolioListItem } from "@/lib/portfolio-api";
 
+export function ProjectCardSkeleton() {
+  return (
+    <div className="block space-y-6" aria-hidden="true">
+      <div className="relative aspect-video overflow-hidden border border-border bg-foreground/[0.03]">
+        <div className="absolute inset-0 sm:inset-[2.5%] overflow-hidden">
+          <div className="h-full w-full animate-pulse bg-foreground/[0.06]" />
+        </div>
+      </div>
+      <div className="space-y-4">
+        <div className="h-8 w-2/3 animate-pulse bg-foreground/[0.08]" />
+        <div className="flex flex-wrap gap-2">
+          <div className="h-6 w-16 animate-pulse border border-border bg-foreground/[0.04]" />
+          <div className="h-6 w-20 animate-pulse border border-border bg-foreground/[0.04]" />
+          <div className="h-6 w-12 animate-pulse border border-border bg-foreground/[0.04]" />
+        </div>
+        <div className="space-y-2">
+          <div className="h-4 w-full animate-pulse bg-foreground/[0.05]" />
+          <div className="h-4 w-4/5 animate-pulse bg-foreground/[0.05]" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectCard({ project }: { project: PortfolioListItem }) {
   const { language } = useLanguage();
   const projectName = language === "en" ? project.NameEn : project.Name;

@@ -49,7 +49,12 @@ export default function RevealOnScroll({
   }>;
 
   return (
-    <Tag ref={ref} id={id} className={`${isVisible ? "animate-fade-in" : "opacity-0"} ${className}`} style={{ animationDelay: `${delay}s` }}>
+    <Tag
+      ref={ref}
+      id={id}
+      className={`reveal-on-scroll ${isVisible ? "is-visible" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}s` }}
+    >
       {children}
     </Tag>
   );
