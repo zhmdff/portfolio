@@ -10,8 +10,10 @@ import {
   ContactMessageItem,
 } from "@/lib/portfolio-api";
 
+import AdminHeader from "@/components/admin/AdminHeader";
+
 export default function AdminMessagesPage() {
-  const { fetch: authFetch, logout } = useAuth();
+  const { fetch: authFetch } = useAuth();
   const [items, setItems] = useState<ContactMessageItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -45,17 +47,7 @@ export default function AdminMessagesPage() {
 
   return (
     <div className="max-w-4xl mx-auto p-8 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-light">Messages</h1>
-        <div className="flex gap-4">
-          <Link href="/admin/portfolio" className="text-sm opacity-60 hover:opacity-100">
-            Portfolio
-          </Link>
-          <button onClick={() => logout()} className="text-sm opacity-60 hover:opacity-100">
-            Log out
-          </button>
-        </div>
-      </div>
+      <AdminHeader title="Messages" />
 
       {items.length === 0 ? (
         <p className="text-sm opacity-50">No messages yet.</p>

@@ -8,6 +8,11 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5080";
 // Content-Type header, so it works for both CRUD and multipart uploads.
 export type AuthFetch = <T = unknown>(endpoint: string, options?: AuthFetchOptions) => Promise<T>;
 
+export interface DownloadLink {
+  Name: string;
+  Url: string;
+}
+
 export interface PortfolioListItem {
   Id: number;
   Slug: string;
@@ -20,7 +25,12 @@ export interface PortfolioListItem {
   Tags: string[];
   Image: string | null;
   Url: string | null;
+  GithubUrl: string | null;
   HasDownload: boolean;
+  PinnedWeb: boolean;
+  PinnedSoftware: boolean;
+  Kind: "Web" | "Software";
+  DownloadLinks: DownloadLink[];
 }
 
 export interface PortfolioDetail {
@@ -37,21 +47,28 @@ export interface PortfolioDetail {
   Tags: string[];
   Image: string | null;
   Url: string | null;
+  GithubUrl: string | null;
   Version: string | null;
   Platform: string | null;
   FileName: string | null;
   DownloadCount: number;
+  Kind: "Web" | "Software";
+  DownloadLinks: DownloadLink[];
 }
 
 export interface PortfolioAdminItem extends Omit<PortfolioDetail, "DownloadCount"> {
   SortOrder: number;
   Published: boolean;
+  PinnedWeb: boolean;
+  PinnedSoftware: boolean;
   DownloadCount: number;
 }
 
 export interface UpsertPortfolioItemRequest {
   Slug: string;
   Published: boolean;
+  PinnedWeb: boolean;
+  PinnedSoftware: boolean;
   Name: string;
   NameEn: string;
   Subtitle: string | null;
@@ -62,14 +79,27 @@ export interface UpsertPortfolioItemRequest {
   TechnicalDetailsEn: string[];
   Tags: string[];
   Url: string | null;
+  GithubUrl: string | null;
   Version: string | null;
   Platform: string | null;
+  Kind: "Web" | "Software";
+  DownloadLinks: DownloadLink[];
 }
 
 export interface ReorderItem {
   Id: number;
   SortOrder: number;
 }
+
+export interface AdminPortfolioListResponse {
+  Items: PortfolioAdminItem[];
+  PinnedWebCount: number;
+  PinnedSoftwareCount: number;
+}
+
+// ---------------------------------------------------------------------------
+// Public portfolio list (all published, used by /projects page)
+// ---------------------------------------------------------------------------
 
 const PORTFOLIO_LIST_TTL_MS = 300_000;
 
@@ -108,6 +138,24 @@ export async function fetchPortfolioList(): Promise<PortfolioListItem[]> {
   return portfolioListInflight;
 }
 
+// ---------------------------------------------------------------------------
+// Pinned items for homepage showcases — no long-term cache (small endpoint)
+// ---------------------------------------------------------------------------
+
+export async function fetchPinnedPortfolioList(
+  kind: "web" | "software"
+): Promise<PortfolioListItem[]> {
+  const res = await fetch(`${API_URL}/api/portfolio/pinned?kind=${kind}`, {
+    next: { tags: ["portfolio"], revalidate: 300 },
+  });
+  if (!res.ok) throw new Error(`Failed to fetch pinned portfolio (${kind})`);
+  return res.json();
+}
+
+// ---------------------------------------------------------------------------
+// Single item detail
+// ---------------------------------------------------------------------------
+
 export async function fetchPortfolioDetail(slug: string): Promise<PortfolioDetail | null> {
   const res = await fetch(`${API_URL}/api/portfolio/${slug}`, { next: { tags: ["portfolio"], revalidate: 300 } });
   if (res.status === 404) return null;
@@ -115,11 +163,10 @@ export async function fetchPortfolioDetail(slug: string): Promise<PortfolioDetai
   return res.json();
 }
 
-// Best-effort on-demand cache invalidation. Called after admin mutations so
-// the public site reflects changes immediately instead of waiting up to the
-// 300s fallback revalidate window. Runs client-side (these functions are
-// invoked from "use client" admin pages), so it hits our own same-origin
-// route handler rather than the external API.
+// ---------------------------------------------------------------------------
+// Best-effort on-demand cache invalidation (called after admin mutations)
+// ---------------------------------------------------------------------------
+
 async function triggerRevalidation(): Promise<void> {
   invalidatePortfolioCache();
   try {
@@ -135,6 +182,10 @@ async function triggerRevalidation(): Promise<void> {
 export function downloadUrl(id: number): string {
   return `${API_URL}/api/portfolio/${id}/download`;
 }
+
+// ---------------------------------------------------------------------------
+// Contact
+// ---------------------------------------------------------------------------
 
 export interface ContactMessageItem {
   Id: number;
@@ -201,8 +252,8 @@ export function imageUrl(image: string | null | undefined): string | undefined {
 
 // authFetch prepends apiUrl itself, so endpoints below are relative paths.
 
-export async function fetchAdminPortfolioList(authFetch: AuthFetch): Promise<PortfolioAdminItem[]> {
-  return authFetch<PortfolioAdminItem[]>("/api/admin/portfolio");
+export async function fetchAdminPortfolioList(authFetch: AuthFetch): Promise<AdminPortfolioListResponse> {
+  return authFetch<AdminPortfolioListResponse>("/api/admin/portfolio");
 }
 
 export async function fetchAdminPortfolioItem(authFetch: AuthFetch, id: number): Promise<PortfolioAdminItem> {
@@ -217,6 +268,20 @@ export async function createPortfolioItem(authFetch: AuthFetch, body: UpsertPort
 
 export async function updatePortfolioItem(authFetch: AuthFetch, id: number, body: UpsertPortfolioItemRequest): Promise<PortfolioAdminItem> {
   const result = await authFetch<PortfolioAdminItem>(`/api/admin/portfolio/${id}`, { method: "PUT", body });
+  await triggerRevalidation();
+  return result;
+}
+
+export async function pinPortfolioItem(
+  authFetch: AuthFetch,
+  id: number,
+  pinnedWeb: boolean,
+  pinnedSoftware: boolean
+): Promise<PortfolioAdminItem> {
+  const result = await authFetch<PortfolioAdminItem>(`/api/admin/portfolio/${id}/pin`, {
+    method: "PATCH",
+    body: { PinnedWeb: pinnedWeb, PinnedSoftware: pinnedSoftware },
+  });
   await triggerRevalidation();
   return result;
 }

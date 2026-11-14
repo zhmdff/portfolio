@@ -229,6 +229,18 @@ export default function ProjectsPage() {
                     <path d="M7 17L17 7M17 7H7M17 7V17" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </Link>
+              ) : activeProject.GithubUrl ? (
+                <Link
+                  href={activeProject.GithubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-geometric inline-flex items-center gap-3 text-[11px] py-3 px-6"
+                >
+                  <span>GitHub</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-3.5 h-3.5">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </Link>
               ) : (
                 <Link
                   href={`/projects/${activeProject.Slug}`}

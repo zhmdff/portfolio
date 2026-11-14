@@ -49,17 +49,27 @@ export default function DetailClient({ project, downloadHref }: { project: Portf
         ))}
       </div>
 
-      <div className="flex gap-4 pt-4">
+      <div className="flex flex-wrap gap-4 pt-4">
         {project.Url && (
           <Link href={project.Url} target="_blank" rel="noopener noreferrer" className="btn-geometric px-6 py-3 text-[11px]">
             {t.live_demo}
           </Link>
         )}
-        {project.FileName && (
-          <Link href={downloadHref} className="btn-geometric px-6 py-3 text-[11px]">
-            Download {project.Version ? `v${project.Version}` : ""} ({project.Platform})
+        {project.GithubUrl && (
+          <Link href={project.GithubUrl} target="_blank" rel="noopener noreferrer" className="btn-geometric px-6 py-3 text-[11px]">
+            GitHub
           </Link>
         )}
+        {project.FileName && (
+          <Link href={downloadHref} className="btn-geometric px-6 py-3 text-[11px]">
+            Download {project.Version ? `v${project.Version}` : ""} {project.Platform ? `(${project.Platform})` : ""}
+          </Link>
+        )}
+        {project.DownloadLinks && project.DownloadLinks.map((link, idx) => (
+          <Link key={idx} href={link.Url} target="_blank" rel="noopener noreferrer" className="btn-geometric px-6 py-3 text-[11px]">
+            {link.Name}
+          </Link>
+        ))}
       </div>
     </div>
   );

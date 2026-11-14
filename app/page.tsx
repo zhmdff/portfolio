@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import ContactForm from "@/components/ContactForm";
-import Showcase from "@/components/Showcase";
+import { WebShowcase, SoftwareShowcase } from "@/components/Showcase";
 import SocialLinks from "@/components/SocialLinks";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -62,8 +62,8 @@ export default function Home() {
               <div className="space-y-6">
                 <p className="text-xl text-foreground/60 max-w-2xl font-light leading-relaxed">{t.description}</p>
                 <div className="flex items-center gap-4 pt-4">
-                  <a href="#projects" className="btn-geometric">
-                    {t.projects_title}
+                  <a href="#web-projects" className="btn-geometric">
+                    {t.web_projects_title}
                   </a>
                   <a href="#contact" className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
                     {t.contact_title}
@@ -79,15 +79,18 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Tech Arsenal Section */}
+        {/* Web Projects Showcase */}
+        <WebShowcase />
+
+        {/* Software Showcase */}
+        <SoftwareShowcase />
+
+        {/* Tech Stack */}
         <RevealOnScroll delay={0.2}>
           <div className="glass-panel mb-24">
             <TechArsenal />
           </div>
         </RevealOnScroll>
-
-        {/* Projects Showcase */}
-        <Showcase limit={3} />
 
         {/* Contact Section */}
         <RevealOnScroll delay={0.2}>
