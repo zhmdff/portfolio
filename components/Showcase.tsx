@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ProjectCard, { ProjectCardSkeleton } from "./ProjectCard";
-import { fetchPinnedPortfolioList, PortfolioListItem } from "@/lib/portfolio-api";
+import { fetchPinnedPortfolioList, getCachedPinnedPortfolioList, PortfolioListItem } from "@/lib/portfolio-api";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import Link from "next/link";
@@ -23,6 +23,11 @@ function ShowcaseSection({ kind, title, viewAllLabel, id }: ShowcaseSectionProps
 
   useEffect(() => {
     let cancelled = false;
+    const cached = getCachedPinnedPortfolioList(kind);
+    if (cached) {
+      setProjects(cached);
+      setLoading(false);
+    }
     fetchPinnedPortfolioList(kind)
       .then((list) => {
         if (!cancelled) {
@@ -45,7 +50,7 @@ function ShowcaseSection({ kind, title, viewAllLabel, id }: ShowcaseSectionProps
   if (!loading && projects.length === 0) return null;
 
   return (
-    <section className="py-24 space-y-16" id={id}>
+    <section className="py-12 space-y-8" id={id}>
       <RevealOnScroll className="flex items-center justify-between">
         <div className="flex items-center space-x-8 flex-1">
           <h2 className="text-xs uppercase tracking-[0.5em] font-medium whitespace-nowrap">

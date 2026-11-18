@@ -142,14 +142,58 @@ export async function fetchPortfolioList(): Promise<PortfolioListItem[]> {
 // Pinned items for homepage showcases — no long-term cache (small endpoint)
 // ---------------------------------------------------------------------------
 
-export async function fetchPinnedPortfolioList(
-  kind: "web" | "software"
-): Promise<PortfolioListItem[]> {
-  const res = await fetch(`${API_URL}/api/portfolio/pinned?kind=${kind}`, {
-    next: { tags: ["portfolio"], revalidate: 300 },
-  });
-  if (!res.ok) throw new Error(`Failed to fetch pinned portfolio (${kind})`);
-  return res.json();
+type PinnedKind = "web" | "software";
+
+const pinnedMem: Partial<Record<PinnedKind, PortfolioListItem[]>> = {};
+const pinnedInflight: Partial<Record<PinnedKind, Promise<PortfolioListItem[]>>> = {};
+
+// Instant (stale) data for first paint: memory first, then sessionStorage.
+export function getCachedPinnedPortfolioList(kind: PinnedKind): PortfolioListItem[] | null {
+  if (pinnedMem[kind]) return pinnedMem[kind]!;
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(`pinned:${kind}`);
+    if (raw) {
+      const data = JSON.parse(raw) as PortfolioListItem[];
+      pinnedMem[kind] = data;
+      return data;
+    }
+  } catch {
+    // ignore storage errors
+  }
+  return null;
+}
+
+// Always hits network (deduped); callers show cached data meanwhile.
+export function fetchPinnedPortfolioList(kind: PinnedKind): Promise<PortfolioListItem[]> {
+  const existing = pinnedInflight[kind];
+  if (existing) return existing;
+  const p = (async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/portfolio/pinned?kind=${kind}`, {
+        next: { tags: ["portfolio"], revalidate: 300 },
+      });
+      if (!res.ok) throw new Error(`Failed to fetch pinned portfolio (${kind})`);
+      const data: PortfolioListItem[] = await res.json();
+      pinnedMem[kind] = data;
+      try {
+        window.sessionStorage.setItem(`pinned:${kind}`, JSON.stringify(data));
+      } catch {
+        // ignore storage errors
+      }
+      return data;
+    } finally {
+      delete pinnedInflight[kind];
+    }
+  })();
+  pinnedInflight[kind] = p;
+  return p;
+}
+
+// Kick off both requests as soon as this module loads (before hydration/effects).
+if (typeof window !== "undefined") {
+  fetchPinnedPortfolioList("web").catch(() => {});
+  fetchPinnedPortfolioList("software").catch(() => {});
 }
 
 // ---------------------------------------------------------------------------
