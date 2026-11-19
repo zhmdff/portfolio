@@ -43,7 +43,7 @@ export default function ContactForm() {
           </p>
           <div className="space-y-4 pt-4">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.3em] opacity-40 mb-1">{t.direct_email}</p>
+              <p className="text-[10px] uppercase tracking-[0.3em] opacity-60 mb-1">{t.direct_email}</p>
               <a href="mailto:zhmdff@gmail.com" className="text-xl font-mono hover:opacity-60 transition-opacity">
                 zhmdff@gmail.com
               </a>
@@ -59,7 +59,7 @@ export default function ContactForm() {
                 placeholder={t.placeholder_email} 
                 value={formData.email} 
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })} 
-                className="w-full bg-transparent border-b border-foreground/20 py-4 outline-none focus:border-foreground transition-all duration-500 placeholder:text-foreground/20" 
+                className="w-full bg-transparent border-b border-foreground/20 py-4 outline-none focus:border-foreground transition-all duration-500 placeholder:text-foreground/50" 
                 required 
               />
             </div>
@@ -69,7 +69,7 @@ export default function ContactForm() {
                 placeholder={t.placeholder_subject} 
                 value={formData.subject} 
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })} 
-                className="w-full bg-transparent border-b border-foreground/20 py-4 outline-none focus:border-foreground transition-all duration-500 placeholder:text-foreground/20" 
+                className="w-full bg-transparent border-b border-foreground/20 py-4 outline-none focus:border-foreground transition-all duration-500 placeholder:text-foreground/50" 
                 required 
               />
             </div>
@@ -78,7 +78,7 @@ export default function ContactForm() {
                 placeholder={t.placeholder_message} 
                 value={formData.message} 
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })} 
-                className="w-full bg-transparent border-b border-foreground/20 py-4 outline-none focus:border-foreground transition-all duration-500 min-h-[120px] resize-none placeholder:text-foreground/20" 
+                className="w-full bg-transparent border-b border-foreground/20 py-4 outline-none focus:border-foreground transition-all duration-500 min-h-[120px] resize-none placeholder:text-foreground/50" 
                 required 
               />
             </div>

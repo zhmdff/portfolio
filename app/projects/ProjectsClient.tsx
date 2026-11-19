@@ -34,7 +34,7 @@ export default function ProjectsClient({ projects }: { projects: PortfolioListIt
         <div className="space-y-6">
           <Link
             href="/"
-            className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity inline-flex items-center gap-2"
+            className="text-[10px] uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity inline-flex items-center gap-2"
           >
             &larr; {t.back_to_home}
           </Link>
@@ -43,7 +43,7 @@ export default function ProjectsClient({ projects }: { projects: PortfolioListIt
               {t.view_all_projects}
             </h1>
             <div className="geometric-line flex-1"></div>
-            <span className="text-[10px] uppercase tracking-widest opacity-40 tabular-nums">
+            <span className="text-[10px] uppercase tracking-widest opacity-60 tabular-nums">
               {projects.length}
             </span>
           </div>

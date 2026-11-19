@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import ContactForm from "@/components/ContactForm";
 import { WebShowcase, SoftwareShowcase } from "@/components/Showcase";
@@ -19,6 +20,18 @@ const ControllerModel = dynamic(() => import("@/components/ControllerModel"), {
 export default function Home() {
   const { language } = useLanguage();
   const t = translations[language];
+  const [show3d, setShow3d] = useState(false);
+
+  // Defer three.js until the main thread is idle so text paints first.
+  useEffect(() => {
+    const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(() => setShow3d(true), { timeout: 2500 });
+      return () => (window as Window & { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback?.(id);
+    }
+    const id = window.setTimeout(() => setShow3d(true), 1500);
+    return () => window.clearTimeout(id);
+  }, []);
 
   return (
     <div className="selection:bg-foreground selection:text-background min-h-screen">
@@ -51,12 +64,12 @@ export default function Home() {
             {/* Left – Text */}
             <div className="flex-1 space-y-12">
               <div className="space-y-4">
-                <p className="text-xs uppercase tracking-[0.4em] opacity-40">
+                <p className="text-xs uppercase tracking-[0.4em] opacity-60">
                   {t.role} / {t.location}
                 </p>
                 <h1 className="text-5xl sm:text-7xl font-light tracking-tight leading-[1.1] max-w-4xl">
                   {t.name} <br />
-                  <span className="opacity-40 italic">{t.tagline}</span>
+                  <span className="opacity-60 italic">{t.tagline}</span>
                 </h1>
               </div>
               <div className="space-y-6">
@@ -65,7 +78,7 @@ export default function Home() {
                   <a href="#web-projects" className="btn-geometric">
                     {t.web_projects_title}
                   </a>
-                  <a href="#contact" className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">
+                  <a href="#contact" className="text-[10px] uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity">
                     {t.contact_title}
                   </a>
                 </div>
@@ -74,7 +87,7 @@ export default function Home() {
 
             {/* Right – 3D Controller */}
             <div className="flex-1 flex justify-center items-center w-full lg:w-auto">
-              <ControllerModel />
+              {show3d ? <ControllerModel /> : <div className="controller-canvas-wrapper" />}
             </div>
           </div>
         </header>
@@ -103,10 +116,10 @@ export default function Home() {
         <footer>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
             <div className="space-y-2">
-              <p className="text-sm opacity-40">
+              <p className="text-sm opacity-60">
                 &copy; {new Date().getFullYear()} {t.name}. {t.footer_copy}.
               </p>
-              <p className="text-[10px] uppercase tracking-widest opacity-20">Azerbaijan / Baku</p>
+              <p className="text-[10px] uppercase tracking-widest opacity-50">Azerbaijan / Baku</p>
             </div>
           </div>
         </footer>

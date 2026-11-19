@@ -43,6 +43,7 @@ export default function ProjectCard({ project }: { project: PortfolioListItem })
               src={imageUrl(project.Image)!}
               alt={projectName}
               fill
+              sizes="(min-width: 1024px) 352px, (min-width: 768px) 50vw, 100vw"
               className={`object-cover transition-opacity duration-500 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
               onLoad={() => setImageLoaded(true)}
             />
@@ -63,7 +64,7 @@ export default function ProjectCard({ project }: { project: PortfolioListItem })
 
         <div className="flex flex-wrap gap-2">
           {project.Tags.map((tag) => (
-            <span key={tag} className="text-[10px] uppercase tracking-widest text-foreground/40 px-2 py-1 border border-border">
+            <span key={tag} className="text-[10px] uppercase tracking-widest text-foreground/60 px-2 py-1 border border-border">
               {tag}
             </span>
           ))}

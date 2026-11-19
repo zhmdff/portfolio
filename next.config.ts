@@ -3,10 +3,13 @@ import type { NextConfig } from "next";
 const apiUrl = new URL(process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5080");
 
 const nextConfig: NextConfig = {
+  productionBrowserSourceMaps: true,
   experimental: {
     optimizePackageImports: ["three", "@react-three/drei"],
+    inlineCss: true,
   },
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: apiUrl.protocol.replace(":", "") as "http" | "https",

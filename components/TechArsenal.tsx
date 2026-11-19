@@ -44,7 +44,7 @@ export default function TechArsenal() {
         <div className="p-8 border border-foreground/5 bg-foreground/[0.02] space-y-6">
           <div className="flex items-center gap-2">
             <div className="w-1 h-1 bg-foreground animate-pulse"></div>
-            <p className="text-[10px] uppercase tracking-widest opacity-40">Code snippet</p>
+            <p className="text-[10px] uppercase tracking-widest opacity-60">Code snippet</p>
           </div>
           <pre className="text-xs font-mono leading-relaxed opacity-70 whitespace-pre-wrap break-words selection:bg-foreground selection:text-background">
             {`public class Developer 
@@ -63,12 +63,12 @@ export default function TechArsenal() {
 
         <div className="space-y-8 flex flex-col justify-center">
           <div className="space-y-2">
-            <p className="text-[10px] uppercase tracking-widest opacity-40 font-medium">{t.about_title}</p>
+            <p className="text-[10px] uppercase tracking-widest opacity-60 font-medium">{t.about_title}</p>
             <p className="text-2xl font-light leading-relaxed italic opacity-80">&quot;{t.about_me}&quot;</p>
           </div>
           <div className="space-y-1">
             <p className="text-sm font-medium tracking-tighter">{t.name}</p>
-            <p className="text-[10px] uppercase tracking-widest opacity-40">{t.role}</p>
+            <p className="text-[10px] uppercase tracking-widest opacity-60">{t.role}</p>
           </div>
         </div>
       </div>

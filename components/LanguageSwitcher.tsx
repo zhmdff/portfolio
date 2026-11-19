@@ -8,14 +8,14 @@ export default function LanguageSwitcher() {
     <div className="flex items-center gap-4 text-[10px] uppercase tracking-widest font-medium">
       <button 
         onClick={() => setLanguage("az")}
-        className={`transition-opacity hover:opacity-100 ${language === "az" ? "opacity-100 underline underline-offset-4" : "opacity-40"}`}
+        className={`transition-opacity hover:opacity-100 ${language === "az" ? "opacity-100 underline underline-offset-4" : "opacity-60"}`}
       >
         AZ
       </button>
       <div className="w-px h-3 bg-foreground/20"></div>
       <button 
         onClick={() => setLanguage("en")}
-        className={`transition-opacity hover:opacity-100 ${language === "en" ? "opacity-100 underline underline-offset-4" : "opacity-40"}`}
+        className={`transition-opacity hover:opacity-100 ${language === "en" ? "opacity-100 underline underline-offset-4" : "opacity-60"}`}
       >
         EN
       </button>

@@ -16,16 +16,16 @@ export default function DetailClient({ project, downloadHref }: { project: Portf
 
   return (
     <div className="max-w-4xl mx-auto p-8 sm:p-16 space-y-8">
-      <Link href="/projects" className="text-[10px] uppercase tracking-widest opacity-40 hover:opacity-100">
+      <Link href="/projects" className="text-[10px] uppercase tracking-widest opacity-60 hover:opacity-100">
         &larr; {t.back_to_home}
       </Link>
 
       <h1 className="text-4xl font-light tracking-tight">{name}</h1>
-      {subtitle && <p className="text-[10px] uppercase tracking-[0.3em] font-medium opacity-40">{subtitle}</p>}
+      {subtitle && <p className="text-[10px] uppercase tracking-[0.3em] font-medium opacity-60">{subtitle}</p>}
 
       {project.Image && (
         <div className="relative aspect-video border border-foreground/5 rounded-xl overflow-hidden">
-          <Image src={imageUrl(project.Image)!} alt={name} fill className="object-cover" />
+          <Image src={imageUrl(project.Image)!} alt={name} fill sizes="(min-width: 1152px) 1056px, 100vw" className="object-cover" />
         </div>
       )}
 
@@ -35,7 +35,7 @@ export default function DetailClient({ project, downloadHref }: { project: Portf
         <ul className="space-y-2.5">
           {details.map((d, i) => (
             <li key={i} className="flex gap-3 text-[13px] text-foreground/60 font-light">
-              <span className="text-foreground/20">•</span>{d}
+              <span className="text-foreground/50">•</span>{d}
             </li>
           ))}
         </ul>
@@ -43,7 +43,7 @@ export default function DetailClient({ project, downloadHref }: { project: Portf
 
       <div className="flex flex-wrap gap-2">
         {project.Tags.map((tag) => (
-          <span key={tag} className="text-[9px] uppercase tracking-widest text-foreground/40 px-2 py-1 border border-foreground/10">
+          <span key={tag} className="text-[9px] uppercase tracking-widest text-foreground/60 px-2 py-1 border border-foreground/10">
             {tag}
           </span>
         ))}

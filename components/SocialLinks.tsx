@@ -36,7 +36,7 @@ export default function SocialLinks() {
   return (
     <div className="flex gap-6">
       {socials.map((social) => (
-        <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" className="opacity-40 hover:opacity-100 transition-opacity duration-300" aria-label={social.name}>
+        <a key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" className="opacity-60 hover:opacity-100 transition-opacity duration-300" aria-label={social.name}>
           {social.icon}
         </a>
       ))}
