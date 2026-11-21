@@ -99,10 +99,7 @@ export default function RootLayout({
       addressLocality: "Baku",
       addressCountry: "Azerbaijan",
     },
-    sameAs: [
-      "https://github.com/zhmdff",
-      "https://linkedin.com/in/mahmud-ahmadov-a57bab261",
-    ],
+    sameAs: ["https://github.com/zhmdff", "https://linkedin.com/in/zhmdff"],
   };
 
   return (
