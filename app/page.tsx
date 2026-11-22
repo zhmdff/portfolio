@@ -24,6 +24,7 @@ export default function Home() {
 
   // Defer three.js until the main thread is idle so text paints first.
   useEffect(() => {
+    if (!window.matchMedia("(min-width: 1024px)").matches) return; // 3D column is hidden below lg
     const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number };
     if (w.requestIdleCallback) {
       const id = w.requestIdleCallback(() => setShow3d(true), { timeout: 2500 });
@@ -59,7 +60,7 @@ export default function Home() {
         </div>
 
         {/* Hero */}
-        <header className="py-24 sm:py-32 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+        <header className="py-24 sm:py-32">
           <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-8">
             {/* Left – Text */}
             <div className="flex-1 space-y-12">
@@ -86,7 +87,7 @@ export default function Home() {
             </div>
 
             {/* Right – 3D Controller */}
-            <div className="flex-1 flex justify-center items-center w-full lg:w-auto">
+            <div className="hidden lg:flex flex-1 justify-center items-center w-full lg:w-auto">
               {show3d ? <ControllerModel /> : <div className="controller-canvas-wrapper" />}
             </div>
           </div>
