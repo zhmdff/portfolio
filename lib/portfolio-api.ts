@@ -190,6 +190,21 @@ export function fetchPinnedPortfolioList(kind: PinnedKind): Promise<PortfolioLis
   return p;
 }
 
+// Server-side (RSC/ISR) fetch for the homepage. Cached by Next's data cache for 300s and
+// invalidated by the "portfolio" tag via /api/revalidate. Returns null on failure so the
+// client falls back to its own fetch.
+export async function fetchPinnedPortfolioListServer(kind: PinnedKind): Promise<PortfolioListItem[] | null> {
+  try {
+    const res = await fetch(`${API_URL}/api/portfolio/pinned?kind=${kind}`, {
+      next: { tags: ["portfolio"], revalidate: 300 },
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as PortfolioListItem[];
+  } catch {
+    return null;
+  }
+}
+
 // Kick off both requests as soon as this module loads (before hydration/effects).
 if (typeof window !== "undefined") {
   fetchPinnedPortfolioList("web").catch(() => {});

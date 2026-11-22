@@ -167,3 +167,122 @@ body {
     min-height: 240px;
   }
 }
+@keyframes float {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+
+/* Controller art: transform/opacity only, except the one-time outline draw. */
+.pad-body {
+  stroke-dasharray: 1;
+  animation: padDraw 1.6s ease-out both;
+}
+
+.pad-btn,
+.pad-stick,
+.pad-dpad {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.pad-btn {
+  animation: padPress 2s ease-in-out infinite;
+}
+
+.pad-stick {
+  animation: padDrift 4s ease-in-out infinite;
+}
+
+.pad-dpad {
+  animation: padTilt 6s ease-in-out infinite;
+}
+
+@keyframes padDraw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes padPress {
+  0%, 70%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  80% {
+    transform: scale(1.8);
+    opacity: 0.5;
+  }
+}
+
+@keyframes padDrift {
+  25% {
+    transform: translate(2px, -2px);
+  }
+
+  75% {
+    transform: translate(-2px, 2px);
+  }
+}
+
+@keyframes padTilt {
+  45%, 55% {
+    transform: rotate(8deg);
+  }
+}
+
+
+/* Dev art: transform/opacity only. */
+.dev-line {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: devType 5s ease-out infinite;
+}
+
+.dev-cursor {
+  animation: devBlink 1s steps(1) infinite;
+}
+
+.dev-key {
+  animation: devKey 3s ease-in-out infinite;
+}
+
+@keyframes devType {
+  0% {
+    transform: scaleX(0);
+  }
+
+  20%, 85% {
+    transform: scaleX(1);
+  }
+
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes devBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes devKey {
+  0%, 85%, 100% {
+    fill-opacity: 0;
+  }
+
+  92% {
+    fill-opacity: 0.7;
+  }
+}

@@ -15,13 +15,16 @@ interface ShowcaseSectionProps {
   title: string;
   viewAllLabel: string;
   id: string;
+  initial: PortfolioListItem[] | null; // server-fetched (ISR-cached); null if server fetch failed
 }
 
-function ShowcaseSection({ kind, title, viewAllLabel, id }: ShowcaseSectionProps) {
-  const [projects, setProjects] = useState<PortfolioListItem[]>([]);
-  const [loading, setLoading] = useState(true);
+function ShowcaseSection({ kind, title, viewAllLabel, id, initial }: ShowcaseSectionProps) {
+  const [projects, setProjects] = useState<PortfolioListItem[]>(initial ?? []);
+  const [loading, setLoading] = useState(initial === null);
 
   useEffect(() => {
+    // Server data present: skip client fetch (avoids hydration mismatch + cold-API wait).
+    if (initial !== null) return;
     let cancelled = false;
     const cached = getCachedPinnedPortfolioList(kind);
     if (cached) {
@@ -44,7 +47,7 @@ function ShowcaseSection({ kind, title, viewAllLabel, id }: ShowcaseSectionProps
     return () => {
       cancelled = true;
     };
-  }, [kind]);
+  }, [kind, initial]);
 
   // Hide the section entirely when there are no pinned items (after loading completes)
   if (!loading && projects.length === 0) return null;
@@ -82,7 +85,7 @@ function ShowcaseSection({ kind, title, viewAllLabel, id }: ShowcaseSectionProps
   );
 }
 
-export function WebShowcase() {
+export function WebShowcase({ initial }: { initial: PortfolioListItem[] | null }) {
   const { language } = useLanguage();
   const t = translations[language];
   return (
@@ -91,11 +94,12 @@ export function WebShowcase() {
       title={t.web_projects_title}
       viewAllLabel={t.view_all_projects}
       id="web-projects"
+      initial={initial}
     />
   );
 }
 
-export function SoftwareShowcase() {
+export function SoftwareShowcase({ initial }: { initial: PortfolioListItem[] | null }) {
   const { language } = useLanguage();
   const t = translations[language];
   return (
@@ -104,6 +108,7 @@ export function SoftwareShowcase() {
       title={t.software_title}
       viewAllLabel={t.view_all_projects}
       id="software"
+      initial={initial}
     />
   );
 }
